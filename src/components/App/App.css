@@ -1,0 +1,29 @@
+
+
+.container-fluid {
+  
+  padding-bottom: 10px;
+}
+
+.New-Recipe {
+  text-align: center;
+}
+
+.btn-group {
+  margin: 0 auto;
+  padding-top: 1.5rem;
+}
+
+#root {
+  overflow-y: scroll;
+}
+
+.card {
+  color: black !important;
+}
+
+a:hover {
+  
+  text-decoration: none !important;
+}
+
