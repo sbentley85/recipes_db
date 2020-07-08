@@ -79,7 +79,7 @@ recipesRouter.post('/', (req, res, next) => {
     const servings = req.body.recipe.servings;
     
     db.query('BEGIN');
-    const recipeSql = `INSERT INTO 'recipe' (name', 'time', 'difficulty', 'user_name', 'servings', 'notes')
+    const recipeSql = `INSERT INTO recipe (name, time, difficulty, user_name, servings, notes)
     VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
     
     const recipeValues = [
@@ -99,7 +99,7 @@ recipesRouter.post('/', (req, res, next) => {
 
             const recipeId = newId.rows[0].id
             const numIngredients = req.body.numIngredients;
-            let ingredientsSql = `INSERT INTO 'ingredients' ('ingredient_id', 'recipe_id', 'num', 'ingredient_name', 'quantity', 'unit') VALUES `
+            let ingredientsSql = `INSERT INTO ingredients (ingredient_id, recipe_id, num, ingredient_name, quantity, unit) VALUES `
             for (let i = 0; i < numIngredients; i++) {
                 const ingredientName = req.body.recipe.ingredients[i].ingredient_name;
                 const ingredientNum = req.body.recipe.ingredients[i].num;
@@ -122,7 +122,7 @@ recipesRouter.post('/', (req, res, next) => {
             })
 
             const numInstructions = req.body.numInstructions;
-            let instructionsSql = `INSERT INTO 'instructions' ('instruction_id', 'step', 'instruction_text', 'recipe_id') VALUES `
+            let instructionsSql = `INSERT INTO instructions (instruction_id, recipe_id, step, instruction_text) VALUES `
             for (let i = 0; i < numInstructions; i++) {
                 const instructionStep = req.body.recipe.instructions[i].step;
                 const instructionText = req.body.recipe.instructions[i].instruction_text;
@@ -212,6 +212,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                         ingredientNum,
                         ingredientId
                     ];
+                    
                     db.query(ingredientsSql, ingredientsValues, (err) => {
                         if(err) {
                             next(err);
@@ -251,6 +252,8 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                         instructionText,
                         instructionId
                     ];
+                    console.log(instructionsSql);
+                    console.log(instructionsValues);
             
                     db.query(instructionsSql, instructionsValues, (err) => {
                         if(err) {

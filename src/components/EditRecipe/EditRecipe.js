@@ -137,7 +137,7 @@ class EditRecipe extends React.Component {
                 const ingredient = {
                     ingredient_name: name,
                     num: num,
-                    ingredient_id: this.state.recipe.ingredients[i].id,
+                    ingredient_id: this.state.recipe.ingredients[i].ingredient_id,
                     quantity: quantity,
                     units: units
                     // recipe_id: this.state.recipe.ingredients[i].recipe_id
