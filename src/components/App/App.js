@@ -5,9 +5,17 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <RecipeList />
-    </div>
+    <Router>
+        <Container fluid>
+          
+          
+          
+          
+          
+          <Route exact path='/' component={RecipeList} />
+          
+        </Container>
+      </Router>
   );
 }
 
