@@ -1,0 +1,28 @@
+body,
+html,
+#root {
+  height: 100%;
+  
+}
+
+
+
+p {
+    margin: 1rem;
+}
+
+.Recipe-info {
+    margin-bottom: 1rem;
+    
+}
+
+
+
+.Recipe-details {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 2rem;
+}
+
+
+

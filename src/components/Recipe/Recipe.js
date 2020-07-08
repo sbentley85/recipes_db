@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 class Recipe extends React.Component {
     render() {
         return (
-            
+            <Link to={`/recipes/${this.props.recipe.id}`}>
             <Card text='center'>
                 
                 <Card.Body>
@@ -18,7 +18,7 @@ class Recipe extends React.Component {
                     </Card.Text>
                 </Card.Body>
             </Card>
-            
+            </Link>
         );
     }
 }

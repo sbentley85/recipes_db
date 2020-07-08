@@ -1,0 +1,37 @@
+.New-recipe-input input.ingredients {
+    width: 15rem;
+    padding: .66rem 1rem;
+    margin-top: 1rem;
+    border: 1px solid grey;
+    border-radius: 4px;
+    font-size: .77rem;
+    font-weight: 500;
+
+  }
+
+  .New-recipe-input input.quantity {
+width: 1.5rem;
+padding: .66rem 1rem;
+}
+
+.New-recipe-input input {
+    width: 15rem;
+    padding: .66rem 1rem;
+    margin-top: 1rem;
+    border: 1px solid grey;
+    border-radius: 4px;
+    font-size: .77rem;
+    font-weight: 500;
+
+  }
+
+  .New-recipe-input select {
+    width: 2.5rem;
+    padding: .66rem 0.5rem;
+    margin-top: 1rem;
+    border: 1px solid grey;
+    border-radius: 4px;
+    font-size: .77rem;
+    font-weight: 500;
+
+  }

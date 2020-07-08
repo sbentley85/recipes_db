@@ -29,6 +29,20 @@ utils.getRecipes = async () => {
 
 };
 
+utils.getRecipe = async id => {
+    const url =`${baseUrl}/recipes/${id}`;
+    return await fetch(url).then(response => {
+        if (!response.ok) {
+          return new Promise(resolve => resolve(null));
+        }
+        return response.json().then(jsonResponse => {
+          return jsonResponse.recipe;
+        });
+      });
+
+
+}
+
 
 
 export default utils;
