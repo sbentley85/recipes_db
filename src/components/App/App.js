@@ -9,6 +9,7 @@ import './App.css';
 import { Auth0Context } from '../../contexts/auth0-context';
 import PrivateRoute from '../auth/PrivateRoute';
 import NavBar from '../NavBar/NavBar';
+import MyRecipes from '../MyRecipes/MyRecipes';
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
           <NavBar />
           <Route exact path='/' component={RecipeList} />
           <Route exact path='/recipes/:id' component={RecipeDetails} />         
-          
-          
+          <PrivateRoute exact path='/recipe/new' component={NewRecipe} />
+          <PrivateRoute path='/recipes/:id/edit' component={EditRecipe} />
+          <PrivateRoute exact path='/myRecipes' component={MyRecipes} />
         </Container>
       </Router>
   );

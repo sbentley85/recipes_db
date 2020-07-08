@@ -75,7 +75,7 @@ class RecipeList extends React.Component {
                     
                     </CardDeck>
                     <div className="buttons">
-                    
+                    <Link to="/recipe/new" className="button"><Button variant="secondary">New Recipe</Button></Link>
                     
                     </div>
                 </div>
