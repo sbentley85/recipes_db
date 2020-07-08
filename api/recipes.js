@@ -51,7 +51,7 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
 })
 
 recipesRouter.get('/', (req,res,next) => {
-    console.log('getting recipes')
+    
     db.query('SELECT * FROM recipe ORDER BY id ASC', (err, recipes) => {
         if (err) {
             next(err);
@@ -79,7 +79,7 @@ recipesRouter.post('/', (req, res, next) => {
     const servings = req.body.recipe.servings;
     
     db.query('BEGIN');
-    const recipeSql = `INSERT INTO recipe (name, time, difficulty, user_name, servings, notes)
+    const recipeSql = `INSERT INTO 'recipe' (name', 'time', 'difficulty', 'user_name', 'servings', 'notes')
     VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
     
     const recipeValues = [
@@ -99,21 +99,20 @@ recipesRouter.post('/', (req, res, next) => {
 
             const recipeId = newId.rows[0].id
             const numIngredients = req.body.numIngredients;
-            let ingredientsSql = `INSERT INTO ingredients (ingredient_name, num, quantity, unit, recipe_id) VALUES `
+            let ingredientsSql = `INSERT INTO 'ingredients' ('ingredient_id', 'recipe_id', 'num', 'ingredient_name', 'quantity', 'unit') VALUES `
             for (let i = 0; i < numIngredients; i++) {
                 const ingredientName = req.body.recipe.ingredients[i].ingredient_name;
                 const ingredientNum = req.body.recipe.ingredients[i].num;
                 const ingredientQuantity = req.body.recipe.ingredients[i].quantity;
                 const ingredientUnits = req.body.recipe.ingredients[i].units;
                 
-                const newSQL = `('${ingredientName}', ${ingredientNum}, ${ingredientQuantity}, '${ingredientUnits}', ${recipeId})`
+                const newSQL = `(DEFAULT, ${recipeId}, ${ingredientNum}, '${ingredientName}', ${ingredientQuantity}, '${ingredientUnits}')`
 
                 if (i < numIngredients -1) {
                     ingredientsSql +=`${newSQL}, ` 
                 } else {
                     ingredientsSql += newSQL
-                }
-                
+                } 
             }
             
             const ingredientUpload = await db.query(ingredientsSql, function (err) {
@@ -123,11 +122,11 @@ recipesRouter.post('/', (req, res, next) => {
             })
 
             const numInstructions = req.body.numInstructions;
-            let instructionsSql = `INSERT INTO instructions (step, instruction_text, recipe_id) VALUES `
+            let instructionsSql = `INSERT INTO 'instructions' ('instruction_id', 'step', 'instruction_text', 'recipe_id') VALUES `
             for (let i = 0; i < numInstructions; i++) {
                 const instructionStep = req.body.recipe.instructions[i].step;
                 const instructionText = req.body.recipe.instructions[i].instruction_text;
-                const newSQL = `(${instructionStep}, '${instructionText}', ${recipeId})`    
+                const newSQL = `(DEFAULT, ${recipeId}, ${instructionStep}, '${instructionText}')`    
                 
                 if (i < numInstructions -1) {
                     instructionsSql +=`${newSQL}, ` 
@@ -147,14 +146,7 @@ recipesRouter.post('/', (req, res, next) => {
             res.sendStatus(201);
         }
     })
-
-    
-
-    
-
     db.query('COMMIT');
-
-    
 })
 
 
