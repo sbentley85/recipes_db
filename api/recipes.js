@@ -70,92 +70,92 @@ recipesRouter.get('/:recipeId', (req, res, next) => {
 
     
 
-    recipesRouter.post('/', (req, res, next) => {
-        const name = req.body.recipe.name;
-        const time = req.body.recipe.time;
-        const difficulty = req.body.recipe.difficulty;
-        const user = req.body.recipe.user;
-        const notes = req.body.recipe.notes;
-        const servings = req.body.recipe.servings;
-        
-        db.query('BEGIN');
-        const recipeSql = `INSERT INTO recipe (name, time, difficulty, user_name, servings, notes)
-        VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
-        
-        const recipeValues = [
-            name,
-            time,
-            difficulty,
-            user,
-            servings,
-            notes
-            ]
-        
-        db.query(recipeSql, recipeValues, async function (err, newId) {
-            if (err) {
-                console.log('error from recipe details posting');
-                next(err);
-            } else {
+recipesRouter.post('/', (req, res, next) => {
+    const name = req.body.recipe.name;
+    const time = req.body.recipe.time;
+    const difficulty = req.body.recipe.difficulty;
+    const user = req.body.recipe.user;
+    const notes = req.body.recipe.notes;
+    const servings = req.body.recipe.servings;
+    
+    db.query('BEGIN');
+    const recipeSql = `INSERT INTO recipe (name, time, difficulty, user_name, servings, notes)
+    VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
+    
+    const recipeValues = [
+        name,
+        time,
+        difficulty,
+        user,
+        servings,
+        notes
+        ]
+    
+    db.query(recipeSql, recipeValues, async function (err, newId) {
+        if (err) {
+            console.log('error from recipe details posting');
+            next(err);
+        } else {
 
-                const recipeId = newId.rows[0].id
-                const numIngredients = req.body.numIngredients;
-                let ingredientsSql = `INSERT INTO ingredients (ingredient_name, num, quantity, unit, recipe_id) VALUES `
-                for (let i = 0; i < numIngredients; i++) {
-                    const ingredientName = req.body.recipe.ingredients[i].ingredient_name;
-                    const ingredientNum = req.body.recipe.ingredients[i].num;
-                    const ingredientQuantity = req.body.recipe.ingredients[i].quantity;
-                    const ingredientUnits = req.body.recipe.ingredients[i].units;
-                    
-                    const newSQL = `('${ingredientName}', ${ingredientNum}, ${ingredientQuantity}, '${ingredientUnits}', ${recipeId})`
+            const recipeId = newId.rows[0].id
+            const numIngredients = req.body.numIngredients;
+            let ingredientsSql = `INSERT INTO ingredients (ingredient_name, num, quantity, unit, recipe_id) VALUES `
+            for (let i = 0; i < numIngredients; i++) {
+                const ingredientName = req.body.recipe.ingredients[i].ingredient_name;
+                const ingredientNum = req.body.recipe.ingredients[i].num;
+                const ingredientQuantity = req.body.recipe.ingredients[i].quantity;
+                const ingredientUnits = req.body.recipe.ingredients[i].units;
+                
+                const newSQL = `('${ingredientName}', ${ingredientNum}, ${ingredientQuantity}, '${ingredientUnits}', ${recipeId})`
 
-                    if (i < numIngredients -1) {
-                        ingredientsSql +=`${newSQL}, ` 
-                    } else {
-                        ingredientsSql += newSQL
-                    }
-                    
+                if (i < numIngredients -1) {
+                    ingredientsSql +=`${newSQL}, ` 
+                } else {
+                    ingredientsSql += newSQL
                 }
                 
-                const ingredientUpload = await db.query(ingredientsSql, function (err) {
-                    if (err) {
-                        next(err);
-                    }
-                })
-
-                const numInstructions = req.body.numInstructions;
-                let instructionsSql = `INSERT INTO instructions (step, instruction_text, recipe_id) VALUES `
-                for (let i = 0; i < numInstructions; i++) {
-                    const instructionStep = req.body.recipe.instructions[i].step;
-                    const instructionText = req.body.recipe.instructions[i].instruction_text;
-                    const newSQL = `(${instructionStep}, '${instructionText}', ${recipeId})`    
-                    
-                    if (i < numInstructions -1) {
-                        instructionsSql +=`${newSQL}, ` 
-                    } else {
-                        instructionsSql += newSQL
-                    }
-                    
-                }
-                console.log(instructionsSql);
-                const instructionUpload = await db.query(instructionsSql, function (err) {
-                    if (err) {
-                        next(err);
-                    }
-                })
-
-
-                res.sendStatus(201);
             }
-        })
+            
+            const ingredientUpload = await db.query(ingredientsSql, function (err) {
+                if (err) {
+                    next(err);
+                }
+            })
 
-        
+            const numInstructions = req.body.numInstructions;
+            let instructionsSql = `INSERT INTO instructions (step, instruction_text, recipe_id) VALUES `
+            for (let i = 0; i < numInstructions; i++) {
+                const instructionStep = req.body.recipe.instructions[i].step;
+                const instructionText = req.body.recipe.instructions[i].instruction_text;
+                const newSQL = `(${instructionStep}, '${instructionText}', ${recipeId})`    
+                
+                if (i < numInstructions -1) {
+                    instructionsSql +=`${newSQL}, ` 
+                } else {
+                    instructionsSql += newSQL
+                }
+                
+            }
+            console.log(instructionsSql);
+            const instructionUpload = await db.query(instructionsSql, function (err) {
+                if (err) {
+                    next(err);
+                }
+            })
 
-        
 
-        db.query('COMMIT');
-    
-        
+            res.sendStatus(201);
+        }
     })
+
+    
+
+    
+
+    db.query('COMMIT');
+
+    
+})
 
 
 
