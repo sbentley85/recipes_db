@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import RecipeList from '../RecipeList/RecipeList';
 import {BrowserRouter as Router, Route } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-
 import './App.css';
+import { Auth0Context } from '../../contexts/auth0-context';
+import PrivateRoute from '../auth/PrivateRoute';
 
 function App() {
   return (
