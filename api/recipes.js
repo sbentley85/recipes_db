@@ -19,7 +19,7 @@ recipesRouter.get('/', (req,res,next) => {
             next(err);
         } else {
             
-            res.status(200).json({recipes: recipes})
+            res.status(200).json({recipes: recipes.rows})
         }
     })
 })

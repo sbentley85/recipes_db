@@ -14,16 +14,10 @@ class RecipeList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            recipes:[{id: 1,
-                name: 'Beef',
-                time: '1 hour',
-                difficulty: 'hard',
-                servings: 4
-
-            }],
+            
                 
             
-            isLoaded: true, //UPDATE once get request working
+            isLoaded: false,
             value: ''
     }
     this.handleChange = this.handleChange.bind(this);
@@ -32,8 +26,8 @@ class RecipeList extends React.Component {
 
     async componentDidMount() {
 
-        utils.getRecipes();
-        /*
+        
+        
         if(!this.props.recipes) {
             utils.getRecipes().then(recipes => {
                 if (recipes.length) {
@@ -50,7 +44,7 @@ class RecipeList extends React.Component {
                 
                 isLoaded: true
             })
-        } */
+        } 
       }
 
     handleChange(event) {
