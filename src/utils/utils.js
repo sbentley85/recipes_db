@@ -21,7 +21,7 @@ utils.getRecipes = async () => {
         
         return response.json().then(jsonResponse => {
            
-          return jsonResponse.recipes.rows;
+          return jsonResponse.recipes;
 
         })
     })
