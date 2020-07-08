@@ -13,10 +13,7 @@ import Form from 'react-bootstrap/Form';
 class RecipeList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            
-                
-            
+        this.state = {            
             isLoaded: false,
             value: ''
     }
@@ -26,10 +23,9 @@ class RecipeList extends React.Component {
 
     async componentDidMount() {
 
-        
-        
         if(!this.props.recipes) {
             utils.getRecipes().then(recipes => {
+                console.log(recipes)
                 if (recipes.length) {
                     
                     this.setState({

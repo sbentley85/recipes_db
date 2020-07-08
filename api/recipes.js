@@ -15,10 +15,8 @@ recipesRouter.get('/', (req,res,next) => {
     console.log('getting recipes')
     db.query('SELECT * FROM recipe ORDER BY id ASC', (err, recipes) => {
         if (err) {
-            
             next(err);
         } else {
-            
             res.status(200).json({recipes: recipes.rows})
         }
     })
