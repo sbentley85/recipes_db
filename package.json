@@ -28,6 +28,7 @@
     "sequelize": "^6.2.4"
   },
   "scripts": {
+    "dev-server": "react-scripts start",
     "start": "node server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -2,12 +2,18 @@ const express = require('express');
 const recipesRouter = express.Router();
 
 const Pool = require('pg').Pool
-const db = new Pool({
+const db = new Pool(process.env.NODE_ENV === 'production' ? {
     connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
-})
+} : {
+    user: 'simon',
+    host: 'localhost',
+    database: 'recipes',
+    password: 'Cant0na123',
+    port: 5432
+  })
 
 
 

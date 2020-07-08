@@ -1,12 +1,13 @@
 import 'whatwg-fetch';
 
 const PORT = process.env.PORT;
-
-const baseUrl = '/api'
-console.log(PORT);
 console.log(process.env.NODE_ENV)
-// For local use
-// const baseUrl = `http://localhost:4001/api`;
+const baseUrl = process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:3001/api'
+
+console.log(baseUrl)
+
+console.log(process.env.NODE_ENV)
+
 const utils = {};
 
 
