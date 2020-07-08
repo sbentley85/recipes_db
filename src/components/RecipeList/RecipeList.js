@@ -1,6 +1,6 @@
 import React from 'react';
 import './RecipeList.css';
-// import utils from '../../utils/utils';
+import utils from '../../utils/utils';
 import Recipe from '../Recipe/Recipe';
 import { Link } from 'react-router-dom';
 import CardDeck from 'react-bootstrap/CardDeck';
@@ -31,6 +31,8 @@ class RecipeList extends React.Component {
 }
 
     async componentDidMount() {
+
+        utils.getRecipes();
         /*
         if(!this.props.recipes) {
             utils.getRecipes().then(recipes => {

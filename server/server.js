@@ -2,6 +2,11 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const port = process.env.PORT || 3000;
+const apiRouter = require('../api/api')
+
+
+
+app.use('/api', apiRouter)
 
 // for production use build folder for static files
 
