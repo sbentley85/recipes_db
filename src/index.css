@@ -1,13 +1,25 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Lato', sans-serif !important;
+  font-weight: 400;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1, h2, h3, h4, h4 {
+  font-weight: 700 !important;
+}
+
+body {
+  background-image: url('./background-lg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 90px;
+}
+
+.logo {
+  background-image: url('./chili50.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 50px;
+  width: 50px;
+  margin-right: 1em;
 }

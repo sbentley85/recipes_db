@@ -1,11 +1,12 @@
 import React from 'react';
+import RecipeList from '../RecipeList/RecipeList';
 
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <h1>This is a react app</h1>
+      <RecipeList />
     </div>
   );
 }

@@ -1,0 +1,32 @@
+.Recipes {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+  }
+
+.RecipeList {
+  
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  padding-top: 1.5rem;
+}
+
+.card {
+  max-width: 250px !important;
+
+}
+
+.card-deck {
+  justify-content: space-evenly;
+}
+
+@media only screen and (max-width: 576px) {
+  .card {
+    max-width: 100% !important;
+  
+  }
+}
