@@ -180,6 +180,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
     const time = req.body.recipe.time;
     const difficulty = req.body.recipe.difficulty;
     const notes = req.body.recipe.notes;
+    const servings = req.body.recipe.servings;
     const ingredients = JSON.stringify(req.body.recipe.ingredients);
     const instructions = JSON.stringify(req.body.recipe.instructions);
     if(!name || !time || !difficulty || !ingredients || !instructions) {
@@ -187,13 +188,14 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
         }
     db.query('BEGIN');
         
-    const sql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4
-     WHERE id = $5`
+    const sql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4, servings = $5
+     WHERE id = $6`
     const values = [
         name,
         time,
         difficulty,
         notes,
+        servings,
         req.params.recipeId
     ]
     db.query(sql, values, function (err) {

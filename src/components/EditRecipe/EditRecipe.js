@@ -39,6 +39,7 @@ class EditRecipe extends React.Component {
         this.updateIngredients = this.updateIngredients.bind(this);
         this.updateInstructions = this.updateInstructions.bind(this);
         this.updateNotes = this.updateNotes.bind(this);
+        this.updateServings = this.updateServings.bind(this);
         
     }
     
@@ -49,6 +50,7 @@ class EditRecipe extends React.Component {
         await this.updateIngredients();
         await this.updateInstructions();
         await this.updateNotes();
+        await this.updateServings();
         await utils.editRecipe(this.state.recipe, this.state.numIngredients, this.state.numInstructions) /*.then(
             
             this.props.history.push('/')
@@ -184,6 +186,12 @@ class EditRecipe extends React.Component {
         this.setState({recipe: recipe});
     }
 
+    updateServings(event) {
+        const recipe = JSON.parse(JSON.stringify(this.state.recipe));
+        const servingsInput = document.querySelector('#servings')
+        recipe.servings = servingsInput.value;
+        this.setState({recipe: recipe});
+    }
 
     render() {
 
@@ -212,6 +220,10 @@ class EditRecipe extends React.Component {
                                     <Form.Label>Difficulty</Form.Label>
                                     <Form.Control id='difficulty' onChange={this.updateDifficulty} value={this.state.recipe.difficulty} />
                                 </Col>
+                                <Col>
+                                    <Form.Label>Servings</Form.Label>
+                                    <Form.Control id='servings' onChange={this.updateServings} value={this.state.recipe.servings} />
+                                </Col>
                             </Row>
                         </Form>
                     </Row>
@@ -232,7 +244,7 @@ class EditRecipe extends React.Component {
                     </Col>
                 </Row>
                 <Row className='mx-auto mt-4'>
-                    <Col lg={10} className="text-center mx-auto">
+                    <Col lg={8} className="text-center mx-auto">
                         <h4>Instructions</h4>
                         <InstructionsInput key='2' instructions={this.state.recipe.instructions} numInstructions={this.state.numInstructions}/>                  
                         <Row className='mt-3 justify-content-center'>
@@ -246,14 +258,14 @@ class EditRecipe extends React.Component {
                     </Col>
                 </Row>
                 <Row className='mx-auto mt-4'>
-                    <Col lg={10} className="text-center mx-auto">
+                    <Col>
                         <Row className='mt-3 justify-content-center'>
-                            <Col>
+                            <Col lg={10} className="text-center mx-auto">
                             <h4>Notes</h4>
                             </Col>
                         </Row>
                         <Row>
-                            <Col Col lg={10} className="text-center mx-auto">
+                            <Col Col lg={8} className="text-center mx-auto">
                                 <Form.Control id="notes" onChange={this.updateNotes} placeholder="Notes" value={this.state.recipe.notes}/>    
                             </Col>
                         </Row>

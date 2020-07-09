@@ -208,7 +208,7 @@ class NewRecipe extends React.Component {
                     </Col>
                 </Row>
                 <Row className='mx-auto mt-4'>
-                    <Col lg={10} className="text-center mx-auto">
+                    <Col lg={8} className="text-center mx-auto">
                         <h4>Instructions</h4>
                         <InstructionsInput key='2' numInstructions={this.state.numInstructions}/>                  
                         <Row className='mt-3 justify-content-center'>
@@ -228,10 +228,9 @@ class NewRecipe extends React.Component {
                             <Col lg={10} className="text-center mx-auto">
                                 <h4>Notes</h4>
                             </Col>
-
                         </Row>
                         <Row>
-                        <Col lg={10} className="text-center mx-auto">
+                        <Col lg={8} className="text-center mx-auto">
                             
                             <Form.Control onChange={this.updateNotes} placeholder="Notes" />
                         </Col> 
