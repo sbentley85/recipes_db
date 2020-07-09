@@ -10,7 +10,7 @@ class Recipe extends React.Component {
             <Card text='center'>
                 
                 <Card.Body>
-                <Card.Title>{this.props.recipe.name}</Card.Title>
+                    <Card.Title>{this.props.recipe.name}</Card.Title>
                     <Card.Text>
                                        
                         <p>Time: {this.props.recipe.time}</p>

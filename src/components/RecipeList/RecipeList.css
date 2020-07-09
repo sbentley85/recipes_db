@@ -5,9 +5,7 @@
     
   }
 
-.RecipeList {
-  
-}
+
 
 .buttons {
   display: flex;
@@ -16,17 +14,23 @@
 }
 
 .card {
-  max-width: 250px !important;
+  width: 18em;
+  flex: none !important;
+  margin-top: 2em;
 
 }
 
+
+
 .card-deck {
   justify-content: space-evenly;
+
 }
 
 @media only screen and (max-width: 576px) {
   .card {
-    max-width: 100% !important;
+    
   
   }
 }
+
