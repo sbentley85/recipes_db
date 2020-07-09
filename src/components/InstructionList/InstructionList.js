@@ -1,6 +1,7 @@
 import React from 'react';
 import './InstructionList.css';
-import InstructionDetail from '../InstructionDetail/InstructionDetail'
+import InstructionDetail from '../InstructionDetail/InstructionDetail';
+import Col from 'react-bootstrap/Col';
 
 
 class InstructionList extends React.Component {
@@ -16,7 +17,7 @@ class InstructionList extends React.Component {
                 <InstructionDetail key={instruction.instruction_id} instruction={instruction}/>)
                 return (
                 
-                <div>{instructions}</div>
+                <Col className="text-center">{instructions}</Col>
                 
                 )
             

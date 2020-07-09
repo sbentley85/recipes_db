@@ -130,21 +130,19 @@ class RecipeDetails extends React.Component {
                     <Col lg={8} className='mx-auto bg-white '>
                         <Row>
                             <Col className="text-center mt-2">
-                            <h4>Details</h4>
+                            <h4>{recipe.name}</h4>
                             </Col>
                         </Row>
                         <Row className='mx-auto mt-1'>
                             
-                                    <Col>
-                                        <p>Name: {recipe.name}</p>
-                                    </Col>
-                                    <Col>
+                                    
+                                    <Col className="text-center">
                                         <p>Time: {recipe.time}</p>
                                     </Col>
-                                    <Col>
+                                    <Col className="text-center">
                                         <p>Difficulty: {recipe.difficulty}</p>
                                     </Col>
-                                    <Col>
+                                    <Col className="text-center">
                                         <p>Servings: {recipe.servings}</p>
                                     </Col>
                                 
@@ -152,7 +150,7 @@ class RecipeDetails extends React.Component {
                     </Col>
                 </Row>
                 <Row className='mx-auto mt-4'>
-                    <Col lg={8} className='ingredients-details mx-auto  bg-white'>
+                    <Col lg={4} className='ingredients-details mx-auto  bg-white'>
                         <Row>
                             <Col className="text-center mt-2">
                                 <h4>Ingredients:</h4>
@@ -165,20 +163,21 @@ class RecipeDetails extends React.Component {
                         </Row>
                         <IngredientList ingredients={this.state.recipe.ingredients}/>
                     </Col>
-                </Row>
-                <Row className='mx-auto mt-4'>
-                    <Col lg={8} className='instructions-details mx-auto  bg-white'>
+                    <Col lg={7} xl={6} className='instructions-details mx-auto  bg-white'>
                         <Row>
                             <Col className="text-center mt-2">
                                 <h4>Instructions: </h4>
                             </Col>
                         </Row>
                         <Row>
-                        <InstructionList instructions={this.state.recipe.instructions}/>
+                            <InstructionList instructions={this.state.recipe.instructions}/>
                         </Row>
-                    </Col>    
-                    
+                    </Col> 
                 </Row>
+                
+                       
+                    
+                
                 <Row className='mx-auto mt-4'>
                     <Col Col lg={8} className='mx-auto  bg-white'>
                         <Row>
@@ -187,7 +186,7 @@ class RecipeDetails extends React.Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col>
+                            <Col className="text-center">
                                 {recipe.notes}
                             </Col>
                         </Row>

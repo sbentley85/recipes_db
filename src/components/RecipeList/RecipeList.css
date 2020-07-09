@@ -17,7 +17,19 @@
   width: 18em;
   flex: none !important;
   margin-top: 2em;
+  
 
+}
+
+.card-title {
+  color: black !important;
+}
+
+.card-text {
+  color: gray;
+  text-decoration: wavy;
+  font-weight: 300;
+  font-style: italic;
 }
 
 
@@ -29,7 +41,7 @@
 
 @media only screen and (max-width: 576px) {
   .card {
-    
+    margin: 0 auto;
   
   }
 }

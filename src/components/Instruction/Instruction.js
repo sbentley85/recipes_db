@@ -13,7 +13,7 @@ class Instruction extends React.Component {
             const instructionText = this.props.instruction.instruction_text;
             return (
                 <Row className='mt-2'>
-                    <Form.Control className="instructions" defaultValue={instructionText} />
+                    <Form.Control className="instructions text-center" defaultValue={instructionText} />
                 </Row>
             )
         } else {
