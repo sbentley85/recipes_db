@@ -1,5 +1,7 @@
 const express = require('express');
 const recipesRouter = express.Router();
+const path=require('path');
+require('dotenv').config({path:path.resolve(__dirname, '../.env')});
 
 const Pool = require('pg').Pool
 const db = new Pool(process.env.NODE_ENV === 'production' ? {
@@ -8,12 +10,14 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
     rejectUnauthorized: false
   }
 } : {
-    user: 'simon',
-    host: 'localhost',
-    database: 'recipes',
-    password: 'Cant0na123',
-    port: 5432
+    user: process.env.LOCAL_DB_USER,
+    host: process.env.LOCAL_DB_HOST,
+    database: process.env.LOCAL_DB_DATABASE,
+    password: process.env.LOCAL_DB_PASSWORD,
+    port: process.env.LOCAL_DB_PORT
   })
+
+  
 
   recipesRouter.param('recipeId', (req, res, next, recipeId) => {
     db.query('SELECT * FROM recipe WHERE id = $1', [recipeId], (err, recipe) => {
@@ -53,6 +57,7 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
 recipesRouter.get('/', (req,res,next) => {
     
     db.query('SELECT * FROM recipe ORDER BY id ASC', (err, recipes) => {
+       
         if (err) {
             next(err);
         } else {
