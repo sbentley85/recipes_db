@@ -175,6 +175,8 @@ recipesRouter.delete('/:recipeId', (req, res, next) => {
 
 })
 
+/*
+
 recipesRouter.put('/:recipeId', (req, res, next) => {
     const name = req.body.recipe.name;
     const time = req.body.recipe.time;
@@ -198,7 +200,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
         servings,
         req.params.recipeId
     ]
-    db.query(sql, values, function (err) {
+    db.query(sql, values, async function (err) {
         if(err) {
             next(err);
         } else {
@@ -222,7 +224,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                     console.log(ingredientsSql);
                     console.log(ingredientsValues);
                     
-                    db.query(ingredientsSql, ingredientsValues, (err) => {
+                    const ingredientsUpload = await db.query(ingredientsSql, ingredientsValues, (err) => {
                         if(err) {
                             next(err);
                         }             
@@ -239,7 +241,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                     ];
                     console.log(ingredientsSql);
                     console.log(ingredientsValues);
-                    db.query(ingredientsSql, ingredientsValues, (err) => {
+                    const ingredientsUpload = await db.query(ingredientsSql, ingredientsValues, (err) => {
                         if(err) {
                             next(err);
                         }             
@@ -266,7 +268,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                     console.log(instructionsSql);
                     console.log(instructionsValues);
             
-                    db.query(instructionsSql, instructionsValues, (err) => {
+                    const instructionUpload = await db.query(instructionsSql, instructionsValues, (err) => {
                         if(err) {
                             next(err);
                         }                
@@ -282,9 +284,11 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                     console.log(instructionsSql);
                     console.log(instructionsValues);
             
-                    db.query(instructionsSql, instructionsValues, (err) => {
+                    const instructionUpload = await db.query(instructionsSql, instructionsValues, (err) => {
                         if(err) {
                             next(err);
+                        } else {
+                            
                         }                
                     });
                 }
@@ -294,6 +298,126 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
         }           
     })
     db.query('COMMIT');
+    
+
+})
+
+*/
+//////////////////////////// Updated put method
+
+recipesRouter.put('/:recipeId', (req, res, next) => {
+    const name = req.body.recipe.name;
+    const time = req.body.recipe.time;
+    const difficulty = req.body.recipe.difficulty;
+    const notes = req.body.recipe.notes;
+    const servings = req.body.recipe.servings;
+    const ingredients = JSON.stringify(req.body.recipe.ingredients);
+    const instructions = JSON.stringify(req.body.recipe.instructions);
+    if(!name || !time || !difficulty || !ingredients || !instructions) {
+        return res.sendStatus(400);
+        }
+
+    
+    ;(async () => {
+        const client = await db.connect()
+
+        try {
+
+            await client.query('BEGIN')
+            const recipeSql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4, servings = $5
+            WHERE id = $6`
+            const recipeValues = [
+                name,
+                time,
+                difficulty,
+                notes,
+                servings,
+                req.params.recipeId
+            ]
+            const res = await client.query(recipeSql, recipeValues)
+            const numIngredients = req.body.numIngredients; 
+            for (let i = 0; i < numIngredients; i++) {
+                const ingredientName = req.body.recipe.ingredients[i].ingredient_name;
+                const ingredientId = req.body.recipe.ingredients[i].ingredient_id;
+                const ingredientQuantity = req.body.recipe.ingredients[i].quantity;
+                const ingredientUnits = req.body.recipe.ingredients[i].units;
+                const ingredientNum = req.body.recipe.ingredients[i].num;
+                if(ingredientId != 'new') {
+                    const ingredientsSql = `UPDATE ingredients SET ingredient_name = $1, quantity = $2, unit = $3, num = $4
+                    WHERE ingredient_id = $5`;
+                    const ingredientsValues = [
+                        ingredientName,
+                        ingredientQuantity,
+                        ingredientUnits,
+                        ingredientNum,
+                        ingredientId
+                    ];
+                    console.log(ingredientsSql);
+                    console.log(ingredientsValues);
+                    
+                    const ingredientsUpload = await db.query(ingredientsSql, ingredientsValues);
+                } else {
+                    
+                    const ingredientsSql = `INSERT INTO ingredients (ingredient_name, num, recipe_id, unit, quantity) VALUES ($1, $2, $3, $4, $5)`;
+                    const ingredientsValues = [
+                        ingredientName,
+                        ingredientNum,
+                        req.body.recipe.id,
+                        ingredientUnits,
+                        ingredientQuantity
+                    ];
+                    console.log(ingredientsSql);
+                    console.log(ingredientsValues);
+                    const ingredientsUpload = await db.query(ingredientsSql, ingredientsValues);
+                }
+            }
+
+            const numInstructions = req.body.numInstructions;
+            for (let i = 0; i < numInstructions; i++) {
+                const instructionText = req.body.recipe.instructions[i].instruction_text;
+                
+                const instructionStep = req.body.recipe.instructions[i].step;
+                // const ingredientNum = req.body.recipe.ingredients[i].num;
+                const instructionId = req.body.recipe.instructions[i].instruction_id;
+                if(instructionId != 'new') {
+                    const instructionsSql = `UPDATE instructions SET instruction_text = $1
+                    WHERE instruction_id = $2`;
+                    const instructionsValues = [
+                        instructionText,
+                        instructionId
+                    ];
+                    console.log(instructionsSql);
+                    console.log(instructionsValues);
+            
+                    const instructionUpload = await db.query(instructionsSql, instructionsValues);
+                } else {
+                    const instructionsSql = `INSERT INTO instructions (step, instruction_text, recipe_id)
+                     VALUES ($1, $2, $3)`;
+                    const instructionsValues = [
+                        instructionStep,
+                        instructionText,
+                        req.body.recipe.id
+                    ];
+                    console.log(instructionsSql);
+                    console.log(instructionsValues);
+            
+                    const instructionUpload = await db.query(instructionsSql, instructionsValues);
+                }
+                
+            }
+
+            await client.query('COMMIT')
+
+        } catch (e) {
+            await client.query('ROLLBACK')
+            throw e
+
+        } finally {
+            client.release()
+            res.sendStatus(200)
+        }
+
+    })().catch(e => console.error(e.stack))
     
 
 })
