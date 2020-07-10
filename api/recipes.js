@@ -188,7 +188,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
         }
     db.query('BEGIN');
         
-    const sql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4, servings = $5
+    const sql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4, servings =
      WHERE id = $6`
     const values = [
         name,

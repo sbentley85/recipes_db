@@ -63,8 +63,8 @@ class EditRecipe extends React.Component {
             if (recipe) {
                 this.setState({
                     recipe: recipe[0],
-                    //numIngredients: recipe.ingredients.length,
-                    //numInstructions: recipe.instructions.length
+                    numIngredients: recipe[0].ingredients.length,
+                    numInstructions: recipe[0].instructions.length
                 })
             }
         })
