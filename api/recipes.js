@@ -188,7 +188,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
         }
     db.query('BEGIN');
         
-    const sql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4, servings =
+    const sql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4, servings = $5
      WHERE id = $6`
     const values = [
         name,
@@ -219,6 +219,8 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                         ingredientNum,
                         ingredientId
                     ];
+                    console.log(ingredientsSql);
+                    console.log(ingredientsValues);
                     
                     db.query(ingredientsSql, ingredientsValues, (err) => {
                         if(err) {
@@ -235,6 +237,8 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                         ingredientUnits,
                         ingredientQuantity
                     ];
+                    console.log(ingredientsSql);
+                    console.log(ingredientsValues);
                     db.query(ingredientsSql, ingredientsValues, (err) => {
                         if(err) {
                             next(err);
@@ -275,6 +279,8 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                         instructionText,
                         req.body.recipe.id
                     ];
+                    console.log(instructionsSql);
+                    console.log(instructionsValues);
             
                     db.query(instructionsSql, instructionsValues, (err) => {
                         if(err) {
