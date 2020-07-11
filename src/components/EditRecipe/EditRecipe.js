@@ -1,9 +1,9 @@
 import React from 'react';
 import './EditRecipe.css';
-import utils from '../../utils/utils'
-import IngredientsInput from '../IngredientsInput/IngredientsInput'
-import InstructionsInput from '../InstructionsInput/InstructionsInput'
-// import {Link} from 'react-router-dom';
+import utils from '../../utils/utils';
+import IngredientsInput from '../IngredientsInput/IngredientsInput';
+import InstructionsInput from '../InstructionsInput/InstructionsInput';
+import TagsInput from '../Tags/TagsInput';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Col from 'react-bootstrap/Col';
@@ -271,7 +271,11 @@ class EditRecipe extends React.Component {
                         </Row>
                     </Col>
                 </Row>      
-                
+                <Row className='mx-auto mt-4'>
+                    <Col lg={8} className="text-center mx-auto tag-container">
+                        <TagsInput />
+                    </Col>
+                </Row>
                 <Row>
                     <ButtonGroup>
                         <Button variant="secondary" href={"/recipes/" + this.state.recipe.id}>Back</Button>{' '}

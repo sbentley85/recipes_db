@@ -38,6 +38,10 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
                 req.recipe[0].instructions = instructions.rows;
             })
 
+            await client.query('SELECT * FROM tags WHERE recipe_id = $1', [recipeId], (err, tags) => {
+                req.recipe[0].tags = tags.rows;
+            })
+
             await client.query('COMMIT');
         } catch (e) {
             await client.query('COMMIT');
@@ -202,14 +206,14 @@ recipesRouter.post('/', (req, res, next) => {
             const recipeSql = `INSERT INTO recipe (name, time, difficulty, user_name, servings, notes)
         VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
         
-        const recipeValues = [
-            name,
-            time,
-            difficulty,
-            user,
-            servings,
-            notes
-            ]
+            const recipeValues = [
+                name,
+                time,
+                difficulty,
+                user,
+                servings,
+                notes
+                ]
 
             const recipeResult = await client.query(recipeSql, recipeValues)
             const recipeId = recipeResult.rows[0].id
@@ -252,8 +256,15 @@ recipesRouter.post('/', (req, res, next) => {
                 await client.query(instructionsSql, instructionsValues)    
                 
             }
-            
-            
+            // Insert tags
+            const tags = req.body.recipe.tags
+            console.log(tags);
+            for (let i=0; i < tags.length; i++) {
+                const tag = req.body.recipe.tags[i];
+                const tagsSql = 'INSERT INTO tags (recipe_id, tag) VALUES ($1, $2)'
+                const tagsValues = [recipeId, tag]
+                await client.query(tagsSql,tagsValues)
+            }            
             
             await client.query('COMMIT')
 

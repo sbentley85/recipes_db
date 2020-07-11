@@ -196,15 +196,11 @@ class RecipeDetails extends React.Component {
                 </Row>
 
                 <Row className='mx-auto mt-4'>
-                    <Col Col lg={8} className='mx-auto  bg-white'>
+                    <Col Col lg={8} className='mx-auto my-2 bg-white'>
+                        
                         <Row>
-                            <Col className="text-center mt-2">
-                                <h4>Tags</h4>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col className="text-center pb-2">
-                                <Tags />
+                            <Col className="text-center p-2">
+                                <Tags tags={this.state.recipe.tags}/>
                             </Col>
                         </Row>
                         

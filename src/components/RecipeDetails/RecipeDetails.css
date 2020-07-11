@@ -24,5 +24,26 @@ p {
   padding-top: 2rem;
 }
 
+.tag {
+  padding: 0.2em;
+  margin: 1em 0.5em;
+  background-color: royalblue;
+  color: white;
+  border-radius: 5px;
+  
+}
+
+.tag-container {
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.inactive {
+  color: black;
+  background-color: aliceblue;
+}
+
 
 

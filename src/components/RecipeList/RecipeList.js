@@ -30,8 +30,8 @@ class RecipeList extends React.Component {
                 if (recipes.length) {
                     
                     this.setState({
-                        recipes: recipes,
-                        isLoaded: true
+                        recipes: recipes
+                        
                     })
                     
                 }
@@ -62,14 +62,21 @@ class RecipeList extends React.Component {
                 let recipes = this.state.recipes
                 const recipeIndex = recipes.findIndex(recipe => recipe.id === tags[i].recipe_id)
                 const recipeToUpdate = recipes[recipeIndex]
-                if(!recipeToUpdate.tags) {
-                    recipeToUpdate.tags = []
+                if(recipeToUpdate) {
+                    if(recipeToUpdate.tags) {
+                        recipeToUpdate.tags.push(tags[i].tag)        
+                    } else {
+                        recipeToUpdate.tags = []
+                        recipeToUpdate.tags.push(tags[i].tag)        
+                    }
+                    
                 }
                 
-                recipeToUpdate.tags.push(tags[i].tag)
+                
                 recipes[recipeIndex] = recipeToUpdate
                 this.setState({
-                    recipes: recipes
+                    recipes: recipes,
+                    isLoaded: true
                 })
             }
         }

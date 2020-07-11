@@ -3,7 +3,7 @@ import './NewRecipe.css';
 import utils from '../../utils/utils'
 import IngredientsInput from '../IngredientsInput/IngredientsInput'
 import InstructionsInput from '../InstructionsInput/InstructionsInput'
-// import {Link} from 'react-router-dom';
+import TagsInput from '../Tags/TagsInput';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -27,7 +27,8 @@ class NewRecipe extends React.Component {
                 ingredients: [],
                 user: '',
                 servings: '',
-                notes: ''
+                notes: '',
+                tags: []
                 
             },
             numIngredients: 5,
@@ -47,6 +48,7 @@ class NewRecipe extends React.Component {
         this.updateUser = this.updateUser.bind(this);
         this.updateServings = this.updateServings.bind(this);
         this.updateNotes = this.updateNotes.bind(this);
+        this.updateTags = this.updateTags.bind(this);
     }
     
     async handleSave() {
@@ -55,6 +57,7 @@ class NewRecipe extends React.Component {
         await this.updateIngredients();
         await this.updateInstructions();
         await this.updateUser();
+        await this.updateTags();
         utils.createRecipe(this.state.recipe, this.state.numIngredients, this.state.numInstructions).then(
             this.props.history.push('/')
         );
@@ -147,6 +150,21 @@ class NewRecipe extends React.Component {
         this.setState({recipe: recipe});
     }
 
+    updateTags() {
+        let tags = []
+        const activeTags = document.querySelectorAll('.active');
+        console.log(activeTags)
+        activeTags.forEach((tag) => {
+            tags.push(tag.innerHTML)
+            console.log(tags)
+        })
+        const recipe = JSON.parse(JSON.stringify(this.state.recipe));
+        console.log(tags)
+        recipe.tags = tags
+        this.setState({recipe: recipe})
+    }
+    
+
     addIngredient () {
         this.setState({numIngredients: this.state.numIngredients + 1});
     }
@@ -237,6 +255,12 @@ class NewRecipe extends React.Component {
                         </Row>
                     </Col>
                 </Row>
+                <Row className='mx-auto mt-4'>
+                    <Col lg={8} className="text-center mx-auto tag-container">
+                        <TagsInput />
+                    </Col>
+                </Row>
+
                 <Row>
                     <ButtonGroup>        
                         <Link to="/"><Button variant="secondary">Back</Button></Link>                    
