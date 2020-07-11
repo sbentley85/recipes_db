@@ -20,7 +20,37 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
   
 
   recipesRouter.param('recipeId', (req, res, next, recipeId) => {
-    db.query('SELECT * FROM recipe WHERE id = $1', [recipeId], (err, recipe) => {
+
+    ;(async () => {
+        const client = await db.connect()
+        
+        try {
+            await client.query('SELECT * FROM recipe WHERE id = $1', [recipeId], (err, recipe) => {
+                req.recipe = recipe.rows;
+            })
+
+            await client.query('SELECT * FROM ingredients WHERE recipe_id = $1 ORDER BY num ASC', [recipeId], (err, ingredients) => {
+                if (ingredients) {
+                    req.recipe[0].ingredients = ingredients.rows;
+                }
+            })
+            await client.query('SELECT * FROM instructions WHERE recipe_id = $1 ORDER BY step ASC', [recipeId], (err, instructions) => {
+                req.recipe[0].instructions = instructions.rows;
+            })
+
+            await client.query('COMMIT');
+        } catch (e) {
+            await client.query('COMMIT');
+            throw e
+        } finally {
+            client.release();
+            next();
+        }
+
+
+    })().catch(e => console.error(e.stack))
+
+    /*db.query('SELECT * FROM recipe WHERE id = $1', [recipeId], (err, recipe) => {
         if(err) {
             next(err);
         } else if (recipe) {
@@ -50,7 +80,7 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
         } else {
             res.sendStatus(404);
         }
-    })
+    })*/
 
 })
 
