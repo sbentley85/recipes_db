@@ -18,13 +18,14 @@ class RecipeList extends React.Component {
             value: ''
     }
     this.handleChange = this.handleChange.bind(this);
+    this.mapTags = this.mapTags.bind(this);
     
 }
 
     async componentDidMount() {
 
         if(!this.props.recipes) {
-            utils.getRecipes().then(recipes => {
+            await utils.getRecipes().then(recipes => {
                 console.log(recipes)
                 if (recipes.length) {
                     
@@ -34,6 +35,13 @@ class RecipeList extends React.Component {
                     })
                     
                 }
+                utils.getTags().then(tags => {
+                    console.log(tags)
+                    if (tags.length) {
+                        this.mapTags(tags);
+                    }
+                })
+
                 })
         } else {
             this.setState({
@@ -47,6 +55,25 @@ class RecipeList extends React.Component {
         const { value } = event.target;
         this.setState({ value });
     }
+
+    mapTags(tags) {
+        if (tags) {
+            for (let i = 0 ; i < tags.length ; i++) {
+                let recipes = this.state.recipes
+                const recipeIndex = recipes.findIndex(recipe => recipe.id === tags[i].recipe_id)
+                const recipeToUpdate = recipes[recipeIndex]
+                if(!recipeToUpdate.tags) {
+                    recipeToUpdate.tags = []
+                }
+                
+                recipeToUpdate.tags.push(tags[i].tag)
+                recipes[recipeIndex] = recipeToUpdate
+                this.setState({
+                    recipes: recipes
+                })
+            }
+        }
+    }
     
 
     render() {
@@ -57,8 +84,8 @@ class RecipeList extends React.Component {
 
                 <div className="RecipeList">
                     <Row className="mb-3">
-                        <Col xs={6} className='mx-auto text-center'>
-                            <Form.Control type="text" value={value} onChange={this.handleChange} placeholder="Filter by name" />
+                        <Col xs={8} className='mx-auto text-center'>
+                            <Form.Control type="text" value={value} onChange={this.handleChange} placeholder="Filter by name, tag, difficulty or time" />
                         </Col>
                     </Row>
                     <CardDeck>

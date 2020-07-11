@@ -3,6 +3,7 @@ import './RecipeDetails.css';
 import utils from '../../utils/utils';
 import IngredientList from '../IngredientList/IngredientList';
 import InstructionList from '../InstructionList/InstructionList'
+import Tags from '../Tags/Tags'
 import {Link} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -186,8 +187,24 @@ class RecipeDetails extends React.Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col className="text-center">
+                            <Col className="text-center pb-2">
                                 {recipe.notes}
+                            </Col>
+                        </Row>
+                        
+                    </Col>
+                </Row>
+
+                <Row className='mx-auto mt-4'>
+                    <Col Col lg={8} className='mx-auto  bg-white'>
+                        <Row>
+                            <Col className="text-center mt-2">
+                                <h4>Tags</h4>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className="text-center pb-2">
+                                <Tags />
                             </Col>
                         </Row>
                         

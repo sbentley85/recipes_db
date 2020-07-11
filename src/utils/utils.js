@@ -123,5 +123,23 @@ utils.editRecipe = async (recipe, numIngredients, numInstructions) => {
 
 };
 
+utils.getTags = async () => {
+    
+  const url = `${baseUrl}/tags`;
+  return await fetch(url).then(response => {
+      if (!response.ok) {
+          console.log('got tags');
+          return new Promise(resolve => resolve([]));
+        }
+      
+      return response.json().then(jsonResponse => {
+         
+        return jsonResponse.tags;
+
+      })
+  })
+
+};
+
 
 export default utils;
