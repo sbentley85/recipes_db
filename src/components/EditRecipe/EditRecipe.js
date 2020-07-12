@@ -220,7 +220,7 @@ class EditRecipe extends React.Component {
         for (let k = 0; k < existingTags.length; k++) {
             if(activeTagsValues.filter(tag => tag === existingTags[k].tag).length != 1) {
                 // delete tag from updated tags
-                console.log(`delete tag ${existingTags[k].tag}`)
+                
                 const index = updatedTags.findIndex(tag => tag.tag === existingTags[k].tag)
                 updatedTags[index].deleted = true
             }

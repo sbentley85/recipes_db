@@ -133,7 +133,7 @@ class NewRecipe extends React.Component {
         
         const user = this.context.user.email
         recipe.user = user;
-        console.log(user);
+        
         this.setState({recipe: recipe});
 
     }
@@ -153,13 +153,13 @@ class NewRecipe extends React.Component {
     updateTags() {
         let tags = []
         const activeTags = document.querySelectorAll('.active');
-        console.log(activeTags)
+        
         activeTags.forEach((tag) => {
             tags.push(tag.innerHTML)
-            console.log(tags)
+            
         })
         const recipe = JSON.parse(JSON.stringify(this.state.recipe));
-        console.log(tags)
+        
         recipe.tags = tags
         this.setState({recipe: recipe})
     }

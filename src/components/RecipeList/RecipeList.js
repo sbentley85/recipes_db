@@ -26,7 +26,7 @@ class RecipeList extends React.Component {
 
         if(!this.props.recipes) {
             await utils.getRecipes().then(recipes => {
-                console.log(recipes)
+                
                 if (recipes.length) {
                     
                     this.setState({
@@ -36,7 +36,7 @@ class RecipeList extends React.Component {
                     
                 }
                 utils.getTags().then(tags => {
-                    console.log(tags)
+                    
                     if (tags.length) {
                         this.mapTags(tags);
                     }

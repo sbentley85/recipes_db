@@ -2,7 +2,10 @@ import React from 'react';
 
 
 const TagsInput = (props) => {
-    const availableTags = ['main', 'side', 'breakfast', 'lunch', 'dinner', 'meat', 'veggie', 'vegan', 'healthy', 'hearty', 'spicey', 'asian', 'french', 'british', 'mexican', 'pastry', 'quick', 'gluten-free']
+    const availableTags = ['main', 'side', 'breakfast', 'lunch', 'dinner',
+    'dessert', 'meat', 'veggie', 'vegan', 'seafood', 'healthy', 'hearty', 'spicey', 'asian',
+    'indian', 'japanese', 'chinese', 'french', 'british', 'mexican', 'italian',
+    'spanish', 'pastry', 'rice', 'pasta', 'chocolate', 'quick', 'gluten-free']
 
     const toggleTag = (event) => {
         
