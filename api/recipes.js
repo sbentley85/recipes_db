@@ -450,6 +450,8 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
         try {
 
             await client.query('BEGIN')
+
+            //// Update Recipe
             const recipeSql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4, servings = $5
             WHERE id = $6`
             const recipeValues = [
@@ -461,6 +463,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                 req.params.recipeId
             ]
             await client.query(recipeSql, recipeValues)
+            /// Update ingredient if exists or add if new
             const numIngredients = req.body.numIngredients; 
             for (let i = 0; i < numIngredients; i++) {
                 const ingredientName = req.body.recipe.ingredients[i].ingredient_name;
@@ -478,8 +481,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                         ingredientNum,
                         ingredientId
                     ];
-                    console.log(ingredientsSql);
-                    console.log(ingredientsValues);
+                    
                     
                     await client.query(ingredientsSql, ingredientsValues);
                 } else {
@@ -492,12 +494,11 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                         ingredientUnits,
                         ingredientQuantity
                     ];
-                    console.log(ingredientsSql);
-                    console.log(ingredientsValues);
+                    
                     await client.query(ingredientsSql, ingredientsValues);
                 }
             }
-
+            /// Update instructions if exists or add if new
             const numInstructions = req.body.numInstructions;
             for (let i = 0; i < numInstructions; i++) {
                 const instructionText = req.body.recipe.instructions[i].instruction_text;
@@ -512,8 +513,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                         instructionText,
                         instructionId
                     ];
-                    console.log(instructionsSql);
-                    console.log(instructionsValues);
+                    
             
                     await client.query(instructionsSql, instructionsValues);
                 } else {
@@ -524,13 +524,33 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
                         instructionText,
                         req.body.recipe.id
                     ];
-                    console.log(instructionsSql);
-                    console.log(instructionsValues);
-            
+                                
                     await client.query(instructionsSql, instructionsValues);
                 }
                 
             }
+            // Update tags if exists or add new
+            const tags = req.body.recipe.tags
+            console.log(tags)
+            for (let i=0; i < tags.length; i++) {
+                if(tags[i].tag_id === 'new') {
+                    const newTagSql = 'INSERT INTO tags (recipe_id, tag) VALUES ($1, $2)'
+                    const newTagValues = [req.body.recipe.id, tags[i].tag];
+                    console.log(newTagSql);
+                    console.log(newTagValues)
+                    await client.query(newTagSql, newTagValues)
+                }
+                
+                if(tags[i].deleted) {
+                    const deletedTagSql = 'DELETE FROM tags WHERE tag_id = $1'
+                    const deletedTagValues = [tags[i].tag_id]
+                    await client.query(deletedTagSql, deletedTagValues)
+                }
+            }
+
+            
+
+            
 
             await client.query('COMMIT')
 

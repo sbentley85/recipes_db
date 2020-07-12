@@ -1,7 +1,8 @@
 import React from 'react';
 
 
-const TagsInput = () => {
+const TagsInput = (props) => {
+    const availableTags = ['main', 'side', 'breakfast', 'lunch', 'dinner', 'meat', 'veggie', 'vegan', 'healthy', 'hearty', 'spicey', 'asian', 'french', 'british', 'mexican', 'pastry', 'quick', 'gluten-free']
 
     const toggleTag = (event) => {
         
@@ -14,11 +15,28 @@ const TagsInput = () => {
         }
         
     }
-    
-    const availableTags = ['main', 'side', 'breakfast', 'lunch', 'dinner', 'meat', 'veggie', 'vegan', 'healthy', 'hearty', 'spicey', 'asian', 'french', 'british', 'mexican', 'pastry', 'quick', 'gluten-free']
+
+
+
+    const renderTags = () => {
+        if (props.tags) {
+            const activeTags = [];
+            for (let i=0; i<props.tags.length; i++) {
+                activeTags.push(props.tags[i].tag)
+                
+            }
+
+            return availableTags.map(tag => activeTags.includes(tag) ? <span className="tag active" onClick={toggleTag}>{tag}</span> : <span className="tag inactive" onClick={toggleTag}>{tag}</span>)
+        } else {
+            return availableTags.map(tag => <span className="tag inactive" onClick={toggleTag}>{tag}</span>)
+        }
+    }
+        
     return (
     
-        availableTags.map(tag => <span className="tag inactive" onClick={toggleTag}>{tag}</span>)
-    )
+        renderTags()
+    )    
+    
+    
 };
 export default TagsInput

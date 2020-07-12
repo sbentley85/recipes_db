@@ -40,6 +40,7 @@ class EditRecipe extends React.Component {
         this.updateInstructions = this.updateInstructions.bind(this);
         this.updateNotes = this.updateNotes.bind(this);
         this.updateServings = this.updateServings.bind(this);
+        this.updateTags = this.updateTags.bind(this);
         
     }
     
@@ -51,6 +52,7 @@ class EditRecipe extends React.Component {
         await this.updateInstructions();
         await this.updateNotes();
         await this.updateServings();
+        await this.updateTags();
         await utils.editRecipe(this.state.recipe, this.state.numIngredients, this.state.numInstructions) /*.then(
             
             this.props.history.push('/')
@@ -193,6 +195,46 @@ class EditRecipe extends React.Component {
         this.setState({recipe: recipe});
     }
 
+    updateTags() {
+        
+        const existingTags = this.state.recipe.tags
+        let updatedTags = existingTags
+        const activeTagsElements = document.querySelectorAll('.active');
+        let activeTagsValues = []
+        for (let i=0; i < activeTagsElements.length; i++) {
+            activeTagsValues.push(activeTagsElements[i].innerHTML)
+        }
+        // Checks active tags against existing tags and adds to state if they don;t exist
+        for (let j= 0; j < activeTagsValues.length; j++) {
+            if(existingTags.filter(tag => tag.tag === activeTagsValues[j]).length != 1) {
+               updatedTags.push({
+                recipe_id: this.state.recipe.id,
+                tag: activeTagsValues[j],
+                tag_id: 'new'
+            }) 
+            }
+        }
+
+        // Checks existing tags against currently active tags and deletes if they dont't exist
+
+        for (let k = 0; k < existingTags.length; k++) {
+            if(activeTagsValues.filter(tag => tag === existingTags[k].tag).length != 1) {
+                // delete tag from updated tags
+                console.log(`delete tag ${existingTags[k].tag}`)
+                const index = updatedTags.findIndex(tag => tag.tag === existingTags[k].tag)
+                updatedTags[index].deleted = true
+            }
+        }
+
+
+
+        
+        const recipe = JSON.parse(JSON.stringify(this.state.recipe));
+        
+        recipe.tags = updatedTags
+        this.setState({recipe: recipe})
+    }
+
     render() {
 
         return (
@@ -273,7 +315,7 @@ class EditRecipe extends React.Component {
                 </Row>      
                 <Row className='mx-auto mt-4'>
                     <Col lg={8} className="text-center mx-auto tag-container">
-                        <TagsInput />
+                        <TagsInput tags={this.state.recipe.tags}/>
                     </Col>
                 </Row>
                 <Row>
