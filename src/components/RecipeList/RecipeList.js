@@ -46,12 +46,12 @@ class RecipeList extends React.Component {
                     })
                 })
 
-                })
+            })
         } else {
             this.setState({
                 
                 isLoaded: true
-            })
+            }) 
         } 
       }
 
@@ -62,27 +62,42 @@ class RecipeList extends React.Component {
 
     mapTags(tags) {
         
-        for (let i = 0 ; i < tags.length ; i++) {
+        if(this.props.recipes) {
+            let recipes = this.props.recipes
+            console.log(recipes)
+
+
+        } else {
             let recipes = this.state.recipes
-            const recipeIndex = recipes.findIndex(recipe => recipe.id === tags[i].recipe_id)
-            const recipeToUpdate = recipes[recipeIndex]
-            if(recipeToUpdate) {
-                if(recipeToUpdate.tags) {
-                    recipeToUpdate.tags.push(tags[i].tag)        
-                } else {
-                    recipeToUpdate.tags = []
-                    recipeToUpdate.tags.push(tags[i].tag)        
+            for (let i = 0 ; i < tags.length ; i++) {
+                // finds index of recipe for each tag
+                const recipeIndex = recipes.findIndex(recipe => recipe.id === tags[i].recipe_id)
+    
+                const recipeToUpdate = recipes[recipeIndex]
+                
+                if(recipeToUpdate) {
+                    if(recipeToUpdate.tags) {
+                        recipeToUpdate.tags.push(tags[i].tag)        
+                    } else {
+                        recipeToUpdate.tags = []
+                        recipeToUpdate.tags.push(tags[i].tag)        
+                    }
+                    
                 }
                 
+                
+                recipes[recipeIndex] = recipeToUpdate
+                this.setState({
+                    recipes: recipes,
+                    isLoaded: true
+                })
             }
-            
-            
-            recipes[recipeIndex] = recipeToUpdate
-            this.setState({
-                recipes: recipes,
-                isLoaded: true
-            })
+
+
         }
+        
+        
+        
         
     }
     

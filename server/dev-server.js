@@ -20,6 +20,6 @@ app.use('/api', apiRouter)
 
 
 app.listen(port, () => {
-    console.log(process.env.NODE_ENV)
+    
     console.log(`Server is up on port ${port}!`);
  });

@@ -29,6 +29,22 @@ utils.getRecipes = async () => {
 
 };
 
+utils.getTaggedRecipes = async (tag) => {
+    
+  const url = `${baseUrl}/tags/${tag}`;
+  return await fetch(url).then(response => {
+      if (!response.ok) {
+          return new Promise(resolve => resolve([]));
+        }
+      
+      return response.json().then(jsonResponse => {
+          
+          return jsonResponse.recipes;
+      })
+  })
+  
+};
+
 utils.getMyRecipes = async (user) => {
     
     const url = `${baseUrl}/users/${user}`;

@@ -6,7 +6,7 @@ import { Auth0Context } from '../../contexts/auth0-context';
 
 
 
-class MyRecipes extends React.Component {
+class TaggedRecipes extends React.Component {
     static contextType = Auth0Context;
     constructor(props) {
         super(props);
@@ -49,8 +49,11 @@ class MyRecipes extends React.Component {
     }
             
     async componentDidMount() {
-        const user = this.context.user.email
-        await utils.getMyRecipes(user).then(recipes => {
+        const url = window.location.href
+        const tag = url.substr(url.lastIndexOf('/') + 1)
+        
+
+        await utils.getTaggedRecipes(tag).then(recipes => {
             if (recipes.length) {
             
             this.setState({
@@ -60,7 +63,7 @@ class MyRecipes extends React.Component {
             
             }
         })
-        
+
         await utils.getTags().then(tags => {
                     
             if (tags.length) {
@@ -71,6 +74,8 @@ class MyRecipes extends React.Component {
                 isLoaded: true
             })
         })
+        
+        
     }
             
     render() {
@@ -81,4 +86,4 @@ class MyRecipes extends React.Component {
     
 };
 
-export default MyRecipes
+export default TaggedRecipes

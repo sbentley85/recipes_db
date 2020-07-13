@@ -10,6 +10,7 @@ import { Auth0Context } from '../../contexts/auth0-context';
 import PrivateRoute from '../auth/PrivateRoute';
 import NavBar from '../NavBar/NavBar';
 import MyRecipes from '../MyRecipes/MyRecipes';
+import TaggedRecipes from '../Tags/TaggedRecipes';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <PrivateRoute exact path='/recipe/new' component={NewRecipe} />
           <PrivateRoute path='/recipes/:id/edit' component={EditRecipe} />
           <PrivateRoute exact path='/myRecipes' component={MyRecipes} />
+          <PrivateRoute exact path='/tags/:tag' component={TaggedRecipes} />
         </Container>
       </Router>
   );

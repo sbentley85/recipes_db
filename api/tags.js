@@ -18,7 +18,37 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
   })
 
   
+  tagsRouter.param('tag', (req, res, next, tag) => {
+    ;(async () => {
+      
+      const client = await db.connect();
+      
+      try {
 
+        await client.query('SELECT * FROM tags WHERE tag = $1', [tag], (err, tags) => {
+          
+          req.tags = tags.rows;
+
+        })
+        
+        await client.query('COMMIT');
+  
+      } catch (e) {
+        await client.query('COMMIT');
+        throw e
+  
+      } finally {
+        client.release();
+        next();
+  
+      }
+  
+  
+  
+    })().catch(e => console.error(e.stack))
+  
+  
+  })
 
 
 tagsRouter.get('/', (req,res,next) => {
@@ -31,6 +61,41 @@ tagsRouter.get('/', (req,res,next) => {
             res.status(200).json({tags: tags.rows})
         }
     })
+})
+
+tagsRouter.get('/:tag', async (req, res, next) => {
+
+  
+  ;(async () => {
+    const client = await db.connect();
+
+    try {
+      req.recipes = []
+      for (let i=0; i < req.tags.length; i++) {
+        await client.query('SELECT * FROM recipe WHERE id = $1', [req.tags[i].recipe_id], (err, recipe) => {
+          
+          req.recipes[i] = recipe.rows[0];
+          
+          
+        })
+        
+      }
+      await client.query('COMMIT'); 
+    } catch (e) {
+
+      await client.query('COMMIT');
+      throw e
+    } finally {
+      client.release();
+      res.status(200).json({recipes: req.recipes});
+
+    }
+
+  })().catch(e => console.error(e.stack))
+
+
+   
+  
 })
 
 
