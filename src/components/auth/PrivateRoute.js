@@ -8,7 +8,7 @@ import { useAuth0 } from '../../contexts/auth0-context';
 
 const PrivateRoute = ({component: Component, ...rest}) => {
     const {isLoading, isAuthenticated, loginWithRedirect} = useAuth0();
-    const baseUri = 'https://serene-earth-35787.herokuapp.com';
+    const baseUri = (process.env.NODE_ENV === 'production') ? 'https://serene-earth-35787.herokuapp.com' : 'http://localhost:3000'
        
 
     if (isLoading) {
