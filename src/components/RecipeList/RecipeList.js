@@ -1,7 +1,8 @@
 import React from 'react';
 import './RecipeList.css';
 import utils from '../../utils/utils';
-import Recipe from '../Recipe/Recipe';
+import Results from '../Results/Results';
+
 import { Link } from 'react-router-dom';
 import CardDeck from 'react-bootstrap/CardDeck';
 import Button from 'react-bootstrap/Button';
@@ -51,7 +52,7 @@ class RecipeList extends React.Component {
             this.setState({
                 
                 isLoaded: true
-            }) 
+            })  
         } 
       }
 
@@ -114,19 +115,22 @@ class RecipeList extends React.Component {
                             <Form.Control type="text" value={value} onChange={this.handleChange} placeholder="Filter by name, tag, difficulty or time" />
                         </Col>
                     </Row>
-                    <CardDeck>
-                        <FilterResults
-                            value={value}
-                            data={recipes}
-                            renderResults={results => (
-                                results.map(recipe => {
-                                    return <Recipe recipe={recipe} key={recipe.id} />
-                                })
-                            )}/>
+                    
+                    <FilterResults
+                        value={value}
+                        data={recipes}
+                        renderResults={results => (
+                            
+                            <Results recipes={results}/>
+                            /* results.map(recipe => {
+                                
+                                return <Recipe recipe={recipe} key={recipe.id} />
+                            }) */
+                        )}/>
                      
                         
                     
-                    </CardDeck>
+                    
                     <div className="buttons">
                     <Link to="/recipe/new" className="button"><Button variant="secondary">New Recipe</Button></Link>
                     
