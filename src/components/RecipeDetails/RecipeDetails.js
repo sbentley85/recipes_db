@@ -10,6 +10,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Auth0Context } from '../../contexts/auth0-context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
 
 
 class RecipeDetails extends React.Component {
@@ -128,7 +130,7 @@ class RecipeDetails extends React.Component {
         return (
             <div className="Recipe-details-container">
                 <Row className='mx-auto mt-4'>
-                    <Col lg={8} className='mx-auto bg-white '>
+                    <Col lg={8} className='mx-auto bg-white  detail-group'>
                         <Row>
                             <Col className="text-center mt-2">
                             <h4>{recipe.name}</h4>
@@ -138,7 +140,7 @@ class RecipeDetails extends React.Component {
                             
                                     
                                     <Col className="text-center">
-                                        <p>Time: {recipe.time}</p>
+                                        <p><FontAwesomeIcon icon={faClock} size="1x"/>{` ${recipe.time}`}</p>
                                     </Col>
                                     <Col className="text-center">
                                         <p>Difficulty: {recipe.difficulty}</p>
@@ -151,7 +153,7 @@ class RecipeDetails extends React.Component {
                     </Col>
                 </Row>
                 <Row className='mx-auto mt-4'>
-                    <Col lg={4} className='ingredients-details mx-auto  bg-white'>
+                    <Col lg={4} className='ingredients-details mx-auto  bg-white detail-group'>
                         <Row>
                             <Col className="text-center mt-2">
                                 <h4>Ingredients:</h4>
@@ -164,7 +166,7 @@ class RecipeDetails extends React.Component {
                         </Row>
                         <IngredientList ingredients={this.state.recipe.ingredients}/>
                     </Col>
-                    <Col lg={7} xl={6} className='instructions-details mx-auto  bg-white'>
+                    <Col lg={7} xl={6} className='instructions-details mx-auto  bg-white detail-group'>
                         <Row>
                             <Col className="text-center mt-2">
                                 <h4>Instructions: </h4>
@@ -180,7 +182,7 @@ class RecipeDetails extends React.Component {
                     
                 
                 <Row className='mx-auto mt-4'>
-                    <Col Col lg={8} className='mx-auto  bg-white'>
+                    <Col Col lg={8} className='mx-auto  bg-white detail-group'>
                         <Row>
                             <Col className="text-center mt-2">
                                 <h4>Notes:</h4>

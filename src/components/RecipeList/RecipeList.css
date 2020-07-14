@@ -17,13 +17,15 @@
   width: 18em;
   height: 9em;
   flex: none !important;
-  margin-top: 2em;
+  margin: 1em 0 1em 0;
   
 
 }
 
 .card-title {
   color: black !important;
+  
+  
 }
 
 .card-text {
@@ -31,9 +33,18 @@
   text-decoration: wavy;
   font-weight: 300;
   font-style: italic;
+  
+  
 }
 
-
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  
+  justify-content: center;
+  
+}
 
 .card-deck {
   justify-content: space-evenly;
