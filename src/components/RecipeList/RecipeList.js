@@ -4,7 +4,7 @@ import utils from '../../utils/utils';
 import Results from '../Results/Results';
 
 import { Link } from 'react-router-dom';
-import CardDeck from 'react-bootstrap/CardDeck';
+
 import Button from 'react-bootstrap/Button';
 import FilterResults from 'react-filter-search';
 import Col from 'react-bootstrap/Col';
@@ -64,8 +64,8 @@ class RecipeList extends React.Component {
     mapTags(tags) {
         
         if(this.props.recipes) {
-            let recipes = this.props.recipes
-            console.log(recipes)
+            
+            
 
 
         } else {

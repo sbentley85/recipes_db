@@ -15,6 +15,7 @@
 
 .card {
   width: 18em;
+  height: 9em;
   flex: none !important;
   margin-top: 2em;
   

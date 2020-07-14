@@ -13,11 +13,11 @@ class Recipe extends React.Component {
                 
                 <Card.Body>
                     <Card.Title>{this.props.recipe.name}</Card.Title>
-                    <Card.Text>
+                    
                                        
-                        <p><FontAwesomeIcon icon={faClock} size="1x"/>{`  ${this.props.recipe.time}`}</p>
-                        <p>Difficulty: {this.props.recipe.difficulty}</p>
-                    </Card.Text>
+                        <div className="card-text"><FontAwesomeIcon icon={faClock} size="1x"/>{`  ${this.props.recipe.time}`}</div>
+                        
+                    
                 </Card.Body>
             </Card>
             </Link>

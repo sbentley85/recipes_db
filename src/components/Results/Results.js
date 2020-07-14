@@ -15,8 +15,8 @@ class Results extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            recipesCount: this.props.recipes.length,
-            recipesPerPage: 5,
+            
+            recipesPerPage: 30,
             pageCount: 1,
             currentPage: 1,
             displayedRecipes: []
@@ -24,14 +24,17 @@ class Results extends React.Component {
         this.handlePageClick = this.handlePageClick.bind(this)
     }
 
-    componentDidMount () {
-        if(this.props.recipes) {
+    componentWillReceiveProps () {
+        if(this.props.recipes.length != 0) {
             const firstRecipe = 0
+            console.log(this.props.recipes)
+            const recipesCount = this.props.recipes.length
             const lastRecipe = firstRecipe + this.state.recipesPerPage
-            const pageCount = Math.ceil(this.state.recipesCount / this.state.recipesPerPage)
+            const pageCount = Math.ceil(recipesCount / this.state.recipesPerPage)
             this.setState({
                 displayedRecipes: this.props.recipes.slice(firstRecipe, lastRecipe),
-                pageCount: pageCount
+                pageCount: pageCount,
+                recipesCount: recipesCount
             })
         }
     }
@@ -72,7 +75,7 @@ class Results extends React.Component {
                                 breakLabel={'...'}
                                 breakClassName={'break-me'}
                                 pageCount={this.state.pageCount}
-                                marginPagesDisplayed={2}
+                                marginPagesDisplayed={1}
                                 pageRangeDisplayed={5}
                                 onPageChange={this.handlePageClick}
                                 containerClassName={'pagination'}
