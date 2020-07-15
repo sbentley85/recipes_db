@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import { Auth0Context } from '../../contexts/auth0-context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
@@ -129,6 +130,13 @@ class RecipeDetails extends React.Component {
         console.log(this.context)
         return (
             <div className="Recipe-details-container">
+                <Row>
+                    <Col className="recipe-image">
+                        <div className='img-wrapper'>
+                            <img src={this.state.recipe.image_url} />
+                        </div>
+                    </Col>
+                </Row>
                 <Row className='mx-auto mt-4'>
                     <Col lg={8} className='mx-auto bg-white  detail-group'>
                         <Row>

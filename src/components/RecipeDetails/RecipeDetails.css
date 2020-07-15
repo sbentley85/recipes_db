@@ -26,6 +26,20 @@ p {
   padding-top: 2rem;
 }
 
+.img-wrapper {
+  
+  
+  overflow: hidden;
+  margin: 0 auto;
+  
+}
+
+.recipe-image img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 15px;
+}
+
 .tag {
   padding: 0.2em;
   margin: 1em 0.5em;

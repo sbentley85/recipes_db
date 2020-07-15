@@ -3,6 +3,7 @@ import './EditRecipe.css';
 import utils from '../../utils/utils';
 import IngredientsInput from '../IngredientsInput/IngredientsInput';
 import InstructionsInput from '../InstructionsInput/InstructionsInput';
+import ImageUpload from '../ImageUpload/ImageUpload';
 import TagsInput from '../Tags/TagsInput';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -41,6 +42,7 @@ class EditRecipe extends React.Component {
         this.updateNotes = this.updateNotes.bind(this);
         this.updateServings = this.updateServings.bind(this);
         this.updateTags = this.updateTags.bind(this);
+        this.updateImage = this.updateImage.bind(this);
         
     }
     
@@ -53,6 +55,7 @@ class EditRecipe extends React.Component {
         await this.updateNotes();
         await this.updateServings();
         await this.updateTags();
+        await this.updateImage();
         await utils.editRecipe(this.state.recipe, this.state.numIngredients, this.state.numInstructions) /*.then(
             
             this.props.history.push('/')
@@ -215,6 +218,8 @@ class EditRecipe extends React.Component {
             }
         }
 
+        
+
         // Checks existing tags against currently active tags and deletes if they dont't exist
 
         for (let k = 0; k < existingTags.length; k++) {
@@ -233,6 +238,16 @@ class EditRecipe extends React.Component {
         
         recipe.tags = updatedTags
         this.setState({recipe: recipe})
+    }
+
+    updateImage() {
+        const recipe = JSON.parse(JSON.stringify(this.state.recipe));
+        
+        const imageURL = document.querySelector('img.upload').src;
+        recipe.image_url = imageURL
+        
+        this.setState({recipe: recipe});
+
     }
 
     render() {
@@ -312,7 +327,12 @@ class EditRecipe extends React.Component {
                             </Col>
                         </Row>
                     </Col>
-                </Row>      
+                </Row>   
+                <Row className='mx-auto mt-4'>
+                    <Col lg={8} className="text-center mx-auto tag-container">
+                        <ImageUpload />
+                    </Col>
+                </Row>   
                 <Row className='mx-auto mt-4'>
                     <Col lg={8} className="text-center mx-auto tag-container">
                         <TagsInput tags={this.state.recipe.tags}/>
