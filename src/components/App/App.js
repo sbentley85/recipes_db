@@ -23,7 +23,7 @@ function App() {
           <PrivateRoute exact path='/recipe/new' component={NewRecipe} />
           <PrivateRoute path='/recipes/:id/edit' component={EditRecipe} />
           <PrivateRoute exact path='/myRecipes' component={MyRecipes} />
-          <PrivateRoute exact path='/tags/:tag' component={TaggedRecipes} />
+          <Route exact path='/tags/:tag' component={TaggedRecipes} />
         </Container>
       </Router>
   );
