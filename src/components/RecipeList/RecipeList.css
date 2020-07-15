@@ -15,26 +15,38 @@
 
 .card {
   width: 18em;
-  height: 9em;
+  height: 10em;
   flex: none !important;
   margin: 1em 0 1em 0;
-  
+  overflow: hidden;
 
+}
+
+.card-image {
+  
+  
 }
 
 .card-title {
   color: black !important;
   
-  
 }
 
 .card-text {
   color: gray;
-  text-decoration: wavy;
   font-weight: 300;
   font-style: italic;
   
-  
+}
+
+
+
+.card-title.with-image {
+  color: white !important;
+}
+
+.card-text.with-image {
+  color: white !important;
 }
 
 .card-body {

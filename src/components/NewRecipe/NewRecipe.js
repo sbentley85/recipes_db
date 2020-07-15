@@ -4,6 +4,7 @@ import utils from '../../utils/utils'
 import IngredientsInput from '../IngredientsInput/IngredientsInput'
 import InstructionsInput from '../InstructionsInput/InstructionsInput'
 import TagsInput from '../Tags/TagsInput';
+import ImageUpload from '../ImageUpload/ImageUpload';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -49,6 +50,7 @@ class NewRecipe extends React.Component {
         this.updateServings = this.updateServings.bind(this);
         this.updateNotes = this.updateNotes.bind(this);
         this.updateTags = this.updateTags.bind(this);
+        this.updateImage = this.updateImage.bind(this);
     }
     
     async handleSave() {
@@ -58,6 +60,7 @@ class NewRecipe extends React.Component {
         await this.updateInstructions();
         await this.updateUser();
         await this.updateTags();
+        await this.updateImage();
         utils.createRecipe(this.state.recipe, this.state.numIngredients, this.state.numInstructions).then(
             this.props.history.push('/')
         );
@@ -163,6 +166,16 @@ class NewRecipe extends React.Component {
         recipe.tags = tags
         this.setState({recipe: recipe})
     }
+
+    updateImage() {
+        const recipe = JSON.parse(JSON.stringify(this.state.recipe));
+        
+        const imageURL = document.querySelector('img.upload').src;
+        recipe.image_url = imageURL
+        
+        this.setState({recipe: recipe});
+
+    }
     
 
     addIngredient () {
@@ -253,6 +266,11 @@ class NewRecipe extends React.Component {
                             <Form.Control onChange={this.updateNotes} placeholder="Notes" />
                         </Col> 
                         </Row>
+                    </Col>
+                </Row>
+                <Row className='mx-auto mt-4'>
+                    <Col lg={8} className="text-center mx-auto tag-container">
+                        <ImageUpload />
                     </Col>
                 </Row>
                 <Row className='mx-auto mt-4'>

@@ -197,14 +197,15 @@ recipesRouter.post('/', (req, res, next) => {
     const user = req.body.recipe.user;
     const notes = req.body.recipe.notes;
     const servings = req.body.recipe.servings;
+    const imageURL = req.body.recipe.image_url;
 
     ;(async () => {
         const client = await db.connect()
 
         try {
             await client.query('BEGIN')
-            const recipeSql = `INSERT INTO recipe (name, time, difficulty, user_name, servings, notes)
-        VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
+            const recipeSql = `INSERT INTO recipe (name, time, difficulty, user_name, servings, notes, image_url)
+        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`
         
             const recipeValues = [
                 name,
@@ -212,7 +213,8 @@ recipesRouter.post('/', (req, res, next) => {
                 difficulty,
                 user,
                 servings,
-                notes
+                notes,
+                imageURL
                 ]
 
             const recipeResult = await client.query(recipeSql, recipeValues)
@@ -439,6 +441,7 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
     const servings = req.body.recipe.servings;
     const ingredients = JSON.stringify(req.body.recipe.ingredients);
     const instructions = JSON.stringify(req.body.recipe.instructions);
+    const imageURL = req.body.recipe.image_url;
     if(!name || !time || !difficulty || !ingredients || !instructions) {
         return res.sendStatus(400);
         }
@@ -452,14 +455,15 @@ recipesRouter.put('/:recipeId', (req, res, next) => {
             await client.query('BEGIN')
 
             //// Update Recipe
-            const recipeSql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4, servings = $5
-            WHERE id = $6`
+            const recipeSql = `UPDATE recipe SET name = $1, time = $2, difficulty = $3, notes = $4, servings = $5, image_url = $6
+            WHERE id = $7`
             const recipeValues = [
                 name,
                 time,
                 difficulty,
                 notes,
                 servings,
+                imageURL,
                 req.params.recipeId
             ]
             await client.query(recipeSql, recipeValues)
