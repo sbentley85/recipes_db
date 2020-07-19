@@ -24,21 +24,38 @@ const ImageUpload = () => {
         setLoading(false)
 
     }
-
-    return (
-        <div className="upload">
-            <h4>Upload image</h4>
-            <input type="file" name="file" placeholder="upload an image" onChange={uploadImage} />
-
-            {
-            loading ? (
-                <h5>Loading</h5>
-            ) : (
-                <img className = "upload" src={image} style={{width: '300px'}} />
-            )}
-
-        </div>
-    )
+    if (image) {
+        return (
+            <div className="upload">
+                <h4>Upload image</h4>
+                <input type="file" name="file" placeholder="upload an image" onChange={uploadImage} />
+    
+                {
+                loading ? (
+                    <h5>Loading</h5>
+                ) : (
+                    <img className = "upload" src={image} style={{width: '300px'}} />
+                )}
+    
+            </div>
+        )
+    } else {
+        return (
+            <div className="upload">
+                <h4>Upload image</h4>
+                <input type="file" name="file" placeholder="upload an image" onChange={uploadImage} />
+    
+                {
+                loading ? (
+                    <h5>Loading</h5>
+                ) : (
+                    <div></div>
+                )}
+    
+            </div>
+        )
+    }
+    
 };
 
 export default ImageUpload;
