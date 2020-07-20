@@ -243,7 +243,7 @@ class EditRecipe extends React.Component {
     updateImage() {
         const recipe = JSON.parse(JSON.stringify(this.state.recipe));
         
-        const imageURL = document.querySelector('img.upload').src;
+        const imageURL = document.querySelector('img.upload') ? document.querySelector('img.upload').src : null;
         recipe.image_url = imageURL
         
         this.setState({recipe: recipe});
