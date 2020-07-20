@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Recipe from '../Recipe/Recipe';
-
 import CardDeck from 'react-bootstrap/CardDeck';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -16,34 +14,60 @@ class Results extends React.Component {
         super(props);
         this.state = {
             
-            recipesPerPage: 30,
             pageCount: 1,
             currentPage: 1,
             displayedRecipes: []
         }
         this.handlePageClick = this.handlePageClick.bind(this)
     }
-
-    componentWillReceiveProps () {
+    
+    componentDidMount () {
         if(this.props.recipes.length != 0) {
             const firstRecipe = 0
-            console.log(this.props.recipes)
+            
             const recipesCount = this.props.recipes.length
-            const lastRecipe = firstRecipe + this.state.recipesPerPage
-            const pageCount = Math.ceil(recipesCount / this.state.recipesPerPage)
+            const value = this.props.value
+            const lastRecipe = firstRecipe + this.props.recipesPerPage
+            const pageCount = Math.ceil(recipesCount / this.props.recipesPerPage)
             this.setState({
                 displayedRecipes: this.props.recipes.slice(firstRecipe, lastRecipe),
                 pageCount: pageCount,
-                recipesCount: recipesCount
+                value: value
+                
             })
+        }
+    }
+    
+
+    componentDidUpdate () {
+        if(this.props.recipes.length != 0) {
+            const firstRecipe = 0
+            const value = this.props.value
+            const recipesCount = this.props.recipes.length
+            const lastRecipe = firstRecipe + this.props.recipesPerPage
+            const pageCount = Math.ceil(recipesCount / this.props.recipesPerPage)
+            const recipesToDisplay = this.props.recipes.slice(firstRecipe, lastRecipe)
+            console.log(this.props.recipes.slice(firstRecipe, lastRecipe))
+
+
+            if(this.state.pageCount !== pageCount || this.state.value !== value) {
+                this.setState({
+                    
+                    pageCount: pageCount,
+                    displayedRecipes: recipesToDisplay,
+                    value: value
+                    
+                })
+            }
+            
         }
     }
     
     handlePageClick (event) {
         console.log(event.selected);
         const pageClicked = event.selected + 1;
-        const firstRecipe = 0 + ((pageClicked -1) * this.state.recipesPerPage)
-        const lastRecipe = firstRecipe + this.state.recipesPerPage
+        const firstRecipe = 0 + ((pageClicked -1) * this.props.recipesPerPage)
+        const lastRecipe = firstRecipe + this.props.recipesPerPage
 
 
 

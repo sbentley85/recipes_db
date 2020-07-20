@@ -2,9 +2,7 @@ import React from 'react';
 import './RecipeList.css';
 import utils from '../../utils/utils';
 import Results from '../Results/Results';
-
 import { Link } from 'react-router-dom';
-
 import Button from 'react-bootstrap/Button';
 import FilterResults from 'react-filter-search';
 import Col from 'react-bootstrap/Col';
@@ -16,10 +14,12 @@ class RecipeList extends React.Component {
         super(props);
         this.state = {            
             isLoaded: false,
-            value: ''
+            value: '',
+            recipesPerPage: 30
     }
     this.handleChange = this.handleChange.bind(this);
     this.mapTags = this.mapTags.bind(this);
+    this.updateRecipesPerPage = this.updateRecipesPerPage.bind(this);
     
 }
 
@@ -97,9 +97,12 @@ class RecipeList extends React.Component {
 
         }
         
-        
-        
-        
+    }
+
+    updateRecipesPerPage(event) {
+        this.setState({
+            recipesPerPage: parseInt(event.target.value)
+        })
     }
     
 
@@ -114,6 +117,15 @@ class RecipeList extends React.Component {
                         <Col xs={8} className='mx-auto text-center'>
                             <Form.Control type="text" value={value} onChange={this.handleChange} placeholder="Filter by name, tag, difficulty or time" />
                         </Col>
+                        <Col xs={2} sm={1}>
+                        <Form.Control as='select' name="recipesPerPage" className="recipesPerPage" value={this.state.recipesPerPage} onChange={this.updateRecipesPerPage}>
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                            <option value="60">60</option>
+                            <option value="120">120</option>
+                            
+                        </Form.Control>
+                        </Col>
                     </Row>
                     
                     <FilterResults
@@ -121,7 +133,7 @@ class RecipeList extends React.Component {
                         data={recipes}
                         renderResults={results => (
                             
-                            <Results recipes={results}/>
+                            <Results recipes={results} recipesPerPage={this.state.recipesPerPage} value={value}/>
                             /* results.map(recipe => {
                                 
                                 return <Recipe recipe={recipe} key={recipe.id} />
