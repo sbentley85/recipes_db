@@ -5,12 +5,16 @@ const port = process.env.PORT || 3001;
 const apiRouter = require('../api/api')
 const morgan = require('morgan');
 const errorhandler = require('errorhandler');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const cors = require('cors');
 
-app.use(bodyParser.json());
+
+app.options('*', cors())
+app.use(express.json());
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({
+    exposedHeaders: ['Content-Type']
+}));
 app.use(errorhandler());
 
 app.use('/api', apiRouter)

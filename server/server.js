@@ -8,9 +8,13 @@ const errorhandler = require('errorhandler');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+app.options('*', cors())
 app.use(bodyParser.json());
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({
+    // allows Content-Type header to be set - not exposed by default
+    exposedHeaders: ['Content-Type']
+}));
 app.use(errorhandler());
 
 app.use('/api', apiRouter)

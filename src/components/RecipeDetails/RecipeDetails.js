@@ -13,6 +13,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import { Auth0Context } from '../../contexts/auth0-context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
 class RecipeDetails extends React.Component {
@@ -26,7 +27,10 @@ class RecipeDetails extends React.Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
-        // this.renderButtons = this.renderButtons.bind(this);
+        this.renderButtons = this.renderButtons.bind(this);
+        this.renderFavorite = this.renderFavorite.bind(this);
+        this.toggleFavorite = this.toggleFavorite.bind(this);
+
         
     }
 
@@ -73,8 +77,32 @@ class RecipeDetails extends React.Component {
 
     }
 
-    checkUser() {
+    toggleFavorite(event) {
 
+        const classes = event.target.parentNode.parentNode.classList
+        
+        if (classes.contains('active')) {
+            
+            event.target.parentNode.parentNode.classList.remove('active')
+            // add utils function to remove from favorites table
+            utils.removeFavorite(this.context.user.name, this.state.recipe.id);
+        } else {
+            
+            event.target.parentNode.parentNode.classList.add('active')
+            utils.addFavorite(this.context.user.name, this.state.recipe.id);
+        }
+    }
+
+    
+
+    renderFavorite() {
+        if(this.context.user) {
+            return (
+                <Col xs={1} className="text-center favorite">
+                    <FontAwesomeIcon onClick ={this.toggleFavorite} icon={faHeart} size="1x"/>
+                </Col>
+            )
+        }
     }
 
     renderButtons() {
@@ -127,7 +155,7 @@ class RecipeDetails extends React.Component {
 
     render() {
         const recipe = this.state.recipe;
-        console.log(this.context)
+        
         return (
             <div className="Recipe-details-container">
                 <Row>
@@ -156,6 +184,7 @@ class RecipeDetails extends React.Component {
                                     <Col className="text-center">
                                         <p>Servings: {recipe.servings}</p>
                                     </Col>
+                                    {this.renderFavorite()}
                                 
                         </Row>
                     </Col>
@@ -210,6 +239,7 @@ class RecipeDetails extends React.Component {
                         <Tags tags={this.state.recipe.tags}/>
                     </Col>
                 </Row>
+                
                 
                 <Row className='mx-auto mt-4'>
                     {this.renderButtons()}

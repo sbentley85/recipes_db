@@ -157,5 +157,44 @@ utils.getTags = async () => {
 
 };
 
+utils.addFavorite = async (user, recipeId) => {
+  
+  const url = `${baseUrl}/favorites`;
+  const fetchOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      user: user,
+      recipeId: recipeId
+    })
+  }
+
+  return await fetch(url, fetchOptions)
+
+
+}
+
+utils.removeFavorite = async (user, recipeId) => {
+  const url = `${baseUrl}/favorites`;
+  const fetchOptions = {
+      method: 'DELETE',
+      headers: {
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user: user,
+        recipeId: recipeId
+      })
+  };
+  return await fetch(url, fetchOptions) 
+}
+
+
+
+
+
+
 
 export default utils;

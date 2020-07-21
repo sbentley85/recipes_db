@@ -7,11 +7,11 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
     rejectUnauthorized: false
   }
 } : {
-    user: 'simon',
-    host: 'localhost',
-    database: 'recipes',
-    password: 'Cant0na123',
-    port: 5432
+    user: process.env.LOCAL_DB_USER,
+    host: process.env.LOCAL_DB_HOST,
+    database: process.env.LOCAL_DB_DATABASE,
+    password: process.env.LOCAL_DB_PASSWORD,
+    port: process.env.LOCAL_DB_PORT
   })
 
 

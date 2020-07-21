@@ -34,6 +34,10 @@ p {
   
 }
 
+.favorite.active {
+  color: rgb(223, 23, 116);
+}
+
 .recipe-image img {
   display: block;
   margin: 0 auto;
