@@ -194,7 +194,7 @@ utils.getUserFavorites = async (user) => {
     }
     return response.json().then(jsonResponse => {
       
-      return jsonResponse.favorites;
+      return jsonResponse.recipes;
     });
   });
 }
