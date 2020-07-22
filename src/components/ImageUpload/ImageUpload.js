@@ -34,7 +34,7 @@ const ImageUpload = () => {
                 loading ? (
                     <h5>Loading</h5>
                 ) : (
-                    <img className = "upload" src={image} style={{width: '300px'}} />
+                    <img className = "upload" src={image} style={{width: '300px'}} alt="recipe" />
                 )}
     
             </div>

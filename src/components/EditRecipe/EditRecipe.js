@@ -209,7 +209,7 @@ class EditRecipe extends React.Component {
         }
         // Checks active tags against existing tags and adds to state if they don;t exist
         for (let j= 0; j < activeTagsValues.length; j++) {
-            if(existingTags.filter(tag => tag.tag === activeTagsValues[j]).length != 1) {
+            if(existingTags.filter(tag => tag.tag === activeTagsValues[j]).length !== 1) {
                updatedTags.push({
                 recipe_id: this.state.recipe.id,
                 tag: activeTagsValues[j],
@@ -223,7 +223,7 @@ class EditRecipe extends React.Component {
         // Checks existing tags against currently active tags and deletes if they dont't exist
 
         for (let k = 0; k < existingTags.length; k++) {
-            if(activeTagsValues.filter(tag => tag === existingTags[k].tag).length != 1) {
+            if(activeTagsValues.filter(tag => tag === existingTags[k].tag).length !== 1) {
                 // delete tag from updated tags
                 
                 const index = updatedTags.findIndex(tag => tag.tag === existingTags[k].tag)

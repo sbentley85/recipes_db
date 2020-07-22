@@ -9,11 +9,12 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Jumbotron from 'react-bootstrap/Jumbotron';
+
 import { Auth0Context } from '../../contexts/auth0-context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+
 
 
 class RecipeDetails extends React.Component {
@@ -21,8 +22,8 @@ class RecipeDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            recipe: {},
-            edit: false
+            recipe: {}
+            
         }
         this.handleDelete = this.handleDelete.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
@@ -30,14 +31,16 @@ class RecipeDetails extends React.Component {
         this.renderButtons = this.renderButtons.bind(this);
         this.renderFavorite = this.renderFavorite.bind(this);
         this.toggleFavorite = this.toggleFavorite.bind(this);
+        this.checkFavorites = this.checkFavorites.bind(this);
 
         
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         
         const recipeDetails = document.querySelector('.Recipe-details-container')
-        utils.getRecipe(this.props.match.params.id).then(recipe => {
+        
+        await utils.getRecipe(this.props.match.params.id).then(recipe => {
             if (recipe) {
                 this.setState({
                     recipe: recipe[0]
@@ -47,7 +50,13 @@ class RecipeDetails extends React.Component {
                 recipeDetails.style.display = 'none';
             }
         })
+        
+        if(this.context.isAuthenticated) {
+            this.checkFavorites()
+        }
+        
     }
+
 
     handleDelete () {
         utils.deleteRecipe(this.state.recipe.id).then(() => {
@@ -94,16 +103,47 @@ class RecipeDetails extends React.Component {
     }
 
     
-
-    renderFavorite() {
-        if(this.context.user) {
-            return (
-                <Col xs={1} className="text-center favorite">
-                    <FontAwesomeIcon onClick ={this.toggleFavorite} icon={faHeart} size="1x"/>
-                </Col>
-            )
+    async checkFavorites() {
+        const user = this.context.isAuthenticated ? this.context.user.email : null
+        
+        if(user) {
+            const userFavorites = await utils.getUserFavorites(user)
+            
+            const isFavorite = userFavorites.filter(recipe => recipe.id === this.state.recipe.id).length === 0 ? false : true;
+            if (isFavorite) {
+                this.setState({
+                    isFavorite: true
+                })
+            } else {
+                this.setState({
+                    isFavorite: false
+                })
+            }
+            return
         }
     }
+    
+    renderFavorite() {
+        
+        if(this.context.user) {       
+
+            if(this.state.isFavorite) {
+                return (
+                    <Col xs={1} className="text-center favorite active">
+                        <FontAwesomeIcon onClick ={this.toggleFavorite} icon={faHeart} size="1x"/>
+                    </Col>
+                )
+            } else {
+                return (
+                    <Col xs={1} className="text-center favorite">
+                        <FontAwesomeIcon onClick ={this.toggleFavorite} icon={faHeart} size="1x"/>
+                    </Col>
+                )
+            }
+        } 
+    }
+
+    
 
     renderButtons() {
         if (this.context.isLoading) {
@@ -161,7 +201,7 @@ class RecipeDetails extends React.Component {
                 <Row>
                     <Col className="recipe-image">
                         <div className='img-wrapper'>
-                            <img src={this.state.recipe.image_url} />
+                            <img src={this.state.recipe.image_url} alt="recipe" />
                         </div>
                     </Col>
                 </Row>
@@ -219,7 +259,7 @@ class RecipeDetails extends React.Component {
                     
                 
                 <Row className='mx-auto mt-4'>
-                    <Col Col lg={8} className='mx-auto  bg-white detail-group'>
+                    <Col lg={8} className='mx-auto  bg-white detail-group'>
                         <Row>
                             <Col className="text-center mt-2">
                                 <h4>Notes:</h4>
@@ -236,7 +276,7 @@ class RecipeDetails extends React.Component {
 
                 <Row className='mx-auto mt-4'>
                     <Col Col lg={8} className='mx-auto my-2 tag-container'>
-                        <Tags tags={this.state.recipe.tags}/>
+                        <Tags key="1" tags={this.state.recipe.tags}/>
                     </Col>
                 </Row>
                 

@@ -42,7 +42,7 @@ export class Auth0Provider extends Component {
 
         await this.state.auth0Client.handleRedirectCallback();
         const user = await this.state.auth0Client.getUser();
-        console.log(this.state.auth0Client)
+        
         this.setState({ user, isAuthenticated: true, isLoading: false });
         window.history.replaceState({}, document.title, window.location.pathname);
         

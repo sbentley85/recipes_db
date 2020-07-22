@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import './NewRecipe.css';
 import utils from '../../utils/utils'
 import IngredientsInput from '../IngredientsInput/IngredientsInput'
@@ -278,7 +278,7 @@ class NewRecipe extends React.Component {
                 </Row>
                 <Row className='mx-auto mt-4'>
                     <Col lg={8} className="text-center mx-auto tag-container">
-                        <TagsInput />
+                        <TagsInput key="1"/>
                     </Col>
                 </Row>
 

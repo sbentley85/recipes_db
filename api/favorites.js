@@ -26,7 +26,7 @@ favoritesRouter.param('user_name', (req, res, next, userName) => {
     
     try {
 
-    await client.query('SELECT * FROM favorites WHERE user_name = $1', [userName], (err, favorites) => {
+    await client.query('SELECT * FROM favorites, recipe WHERE favorites.user_name = $1 AND recipe.id = favorites.recipe_id', [userName], (err, favorites) => {
         
         req.favorites = favorites.rows;
 
@@ -51,54 +51,15 @@ favoritesRouter.param('user_name', (req, res, next, userName) => {
 
 })
 
-/*
-favoritesRouter.get('/', (req,res,next) => {
-    
-    db.query('SELECT * FROM tags ORDER BY tag_id ASC', (err, tags) => {
-       
-        if (err) {
-            next(err);
-        } else {
-            res.status(200).json({tags: tags.rows})
-        }
-    })
-})
-*/
+
 
 favoritesRouter.get('/:user_name', async (req, res, next) => {
 
-  
-  ;(async () => {
-    const client = await db.connect();
+    res.status(200).json({recipes: req.favorites});
 
-    try {
-      req.recipes = []
-      for (let i=0; i < req.favorites.length; i++) {
-        await client.query('SELECT * FROM recipe WHERE id = $1', [req.favorites[i].recipe_id], (err, recipe) => {
-          
-          req.recipes[i] = recipe.rows[0];
-          
-          
-        })
-        
-      }
-      await client.query('COMMIT'); 
-    } catch (e) {
-
-      await client.query('COMMIT');
-      throw e
-    } finally {
-      client.release();
-      res.status(200).json({recipes: req.recipes});
-
-    }
-
-  })().catch(e => console.error(e.stack))
-
-
-   
   
 })
+
 
 favoritesRouter.post('/', (req, res, next) => {
     const user = req.body.user;

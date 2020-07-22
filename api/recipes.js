@@ -42,6 +42,8 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
                 req.recipe[0].tags = tags.rows;
             })
 
+            
+
             await client.query('COMMIT');
         } catch (e) {
             await client.query('COMMIT');

@@ -22,7 +22,7 @@ class Results extends React.Component {
     }
     
     componentDidMount () {
-        if(this.props.recipes.length != 0) {
+        if(this.props.recipes.length !== 0) {
             const firstRecipe = 0
             
             const recipesCount = this.props.recipes.length
@@ -40,14 +40,14 @@ class Results extends React.Component {
     
 
     componentDidUpdate () {
-        if(this.props.recipes.length != 0) {
+        if(this.props.recipes.length !== 0) {
             const firstRecipe = 0
             const value = this.props.value
             const recipesCount = this.props.recipes.length
             const lastRecipe = firstRecipe + this.props.recipesPerPage
             const pageCount = Math.ceil(recipesCount / this.props.recipesPerPage)
             const recipesToDisplay = this.props.recipes.slice(firstRecipe, lastRecipe)
-            console.log(this.props.recipes.slice(firstRecipe, lastRecipe))
+            
 
 
             if(this.state.pageCount !== pageCount || this.state.value !== value) {

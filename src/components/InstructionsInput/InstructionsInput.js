@@ -12,11 +12,11 @@ class InstructionsInput extends React.Component {
         if(this.props.instructions) {
             for (let i=0; i < this.props.numInstructions; i++) {
                 const instruction = this.props.instructions[i]
-                instructionsArray.push(<Instruction instruction={instruction} instructionNum={i+1}/>)
+                instructionsArray.push(<Instruction instruction={instruction} instructionNum={i+1} key={1}/>)
             }
         } else {
             for (let i=0; i < this.props.numInstructions; i++) {
-                instructionsArray.push(<Instruction instructionNum={i+1}/>)
+                instructionsArray.push(<Instruction instructionNum={i+1} key={i}/>)
             }
         }
 

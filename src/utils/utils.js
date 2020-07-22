@@ -1,12 +1,6 @@
 import 'whatwg-fetch';
 
-
-console.log(process.env.NODE_ENV)
 const baseUrl = process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:3001/api'
-
-console.log(baseUrl)
-
-console.log(process.env.NODE_ENV)
 
 const utils = {};
 
@@ -61,8 +55,9 @@ utils.getMyRecipes = async (user) => {
   
   };
 
-utils.getRecipe = async id => {
+utils.getRecipe = async (id, user) => {
     const url =`${baseUrl}/recipes/${id}`;
+    
     return await fetch(url).then(response => {
         if (!response.ok) {
           return new Promise(resolve => resolve(null));
@@ -191,7 +186,18 @@ utils.removeFavorite = async (user, recipeId) => {
   return await fetch(url, fetchOptions) 
 }
 
-
+utils.getUserFavorites = async (user) => {
+  const url = `${baseUrl}/favorites/${user}`;
+  return await fetch(url).then(response => {
+    if (!response.ok) {
+      return new Promise(resolve => resolve(null));
+    }
+    return response.json().then(jsonResponse => {
+      
+      return jsonResponse.favorites;
+    });
+  });
+}
 
 
 

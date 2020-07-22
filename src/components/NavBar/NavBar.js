@@ -1,14 +1,12 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import { useAuth0 } from '../../contexts/auth0-context';
-import { Link } from 'react-router-dom';
+
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
+
+
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
-import LoginButton from '../auth/LoginButton';
-import LogoutButton from '../auth/LogoutButton';
 
 
 function NavBar () {
@@ -38,6 +36,7 @@ function NavBar () {
                 {user && !isLoading && (
                     <NavDropdown title="My Account" id="basic-nav-dropdown">
                     <NavDropdown.Item href='/myRecipes'>My Recipes</NavDropdown.Item>
+                    <NavDropdown.Item href='/myFavorites'>My Favorites</NavDropdown.Item>
                     <NavDropdown.Item href="/recipe/new">New Recipe</NavDropdown.Item>
                     
                     <NavDropdown.Divider />
