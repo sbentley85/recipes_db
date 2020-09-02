@@ -32,6 +32,7 @@ class RecipeDetails extends React.Component {
         this.renderFavorite = this.renderFavorite.bind(this);
         this.toggleFavorite = this.toggleFavorite.bind(this);
         this.checkFavorites = this.checkFavorites.bind(this);
+        this.renderImage = this.renderImage.bind(this);
 
         
     }
@@ -189,7 +190,19 @@ class RecipeDetails extends React.Component {
         
     } 
         
-    
+    renderImage() {
+        if (this.state.recipe.image_url) {
+            return (
+                <Row>
+                    <Col className="recipe-image">
+                        <div className='img-wrapper'>
+                            <img src={this.state.recipe.image_url} alt="recipe" />
+                        </div>
+                    </Col>
+                </Row>
+            )
+        }
+    }
 
    
 
@@ -198,13 +211,7 @@ class RecipeDetails extends React.Component {
         
         return (
             <div className="Recipe-details-container">
-                <Row>
-                    <Col className="recipe-image">
-                        <div className='img-wrapper'>
-                            <img src={this.state.recipe.image_url} alt="recipe" />
-                        </div>
-                    </Col>
-                </Row>
+                {this.renderImage()}
                 <Row className='mx-auto mt-4'>
                     <Col lg={8} className='mx-auto bg-white  detail-group'>
                         <Row>
