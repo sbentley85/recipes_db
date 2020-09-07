@@ -196,7 +196,7 @@ class RecipeDetails extends React.Component {
                 <Row>
                     <Col className="recipe-image">
                         <div className='img-wrapper'>
-                            <img src={this.state.recipe.image_url} alt="recipe" />
+                            <img className="recipe-img" src={this.state.recipe.image_url} alt="recipe" />
                         </div>
                     </Col>
                 </Row>

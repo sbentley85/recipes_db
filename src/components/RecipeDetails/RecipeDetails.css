@@ -34,15 +34,18 @@ p {
   
 }
 
-.favorite.active {
-  color: rgb(223, 23, 116);
-}
-
-.recipe-image img {
+.recipe-img {
+  max-width: 100%;
   display: block;
   margin: 0 auto;
   border-radius: 15px;
 }
+
+.favorite.active {
+  color: rgb(223, 23, 116);
+}
+
+
 
 .tag {
   padding: 0.2em;
