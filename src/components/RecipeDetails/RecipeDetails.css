@@ -39,6 +39,7 @@ p {
   display: block;
   margin: 0 auto;
   border-radius: 15px;
+  max-height: 70vh;
 }
 
 .favorite.active {
