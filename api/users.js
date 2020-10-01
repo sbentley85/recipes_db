@@ -16,6 +16,7 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
 
 
 usersRouter.param('user', (req, res, next, user) => {
+    // adds all of a given users recipes to req.recipes
     db.query('SELECT * FROM recipe WHERE user_name = $1', [user], (err, recipes) => {
         if(err) {
             next(err);
@@ -29,13 +30,11 @@ usersRouter.param('user', (req, res, next, user) => {
     })
     
 
-    
-
 })
 
 
-
 usersRouter.get('/:user', (req, res, next) => {
+    // returns all user recipes as json object from req.recipes param rule
     res.status(200).json({recipes: req.recipes});
 })
 

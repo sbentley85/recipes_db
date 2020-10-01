@@ -1,8 +1,9 @@
 const express = require('express');
 const tagsRouter = express.Router();
 const path=require('path');
+// import .env file containing local db credentials
 require('dotenv').config({path:path.resolve(__dirname, '../.env')});
-
+// creates db connection using either dev or production details depending on environment
 const Pool = require('pg').Pool
 const db = new Pool(process.env.NODE_ENV === 'production' ? {
     connectionString: process.env.DATABASE_URL,
@@ -19,6 +20,7 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
 
   
   tagsRouter.param('tag', (req, res, next, tag) => {
+    // attaches all rows from tags table for a given tag to request body
     ;(async () => {
       
       const client = await db.connect();
@@ -52,7 +54,7 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
 
 
 tagsRouter.get('/', (req,res,next) => {
-    
+    // gets all tags
     db.query('SELECT * FROM tags ORDER BY tag_id ASC', (err, tags) => {
        
         if (err) {
@@ -64,7 +66,7 @@ tagsRouter.get('/', (req,res,next) => {
 })
 
 tagsRouter.get('/:tag', async (req, res, next) => {
-
+  // gets details from recipe table for all recipe ids included in req.body.tags added by .param rule
   
   ;(async () => {
     const client = await db.connect();
@@ -73,10 +75,7 @@ tagsRouter.get('/:tag', async (req, res, next) => {
       req.recipes = []
       for (let i=0; i < req.tags.length; i++) {
         await client.query('SELECT * FROM recipe WHERE id = $1', [req.tags[i].recipe_id], (err, recipe) => {
-          
           req.recipes[i] = recipe.rows[0];
-          
-          
         })
         
       }

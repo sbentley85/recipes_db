@@ -4,6 +4,7 @@ const path=require('path');
 require('dotenv').config({path:path.resolve(__dirname, '../.env')});
 
 const Pool = require('pg').Pool
+// creates db with either production or developement details
 const db = new Pool(process.env.NODE_ENV === 'production' ? {
     connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -18,35 +19,36 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
     }
 )
 
-  
+
 favoritesRouter.param('user_name', (req, res, next, userName) => {
-;(async () => {
-    
-    const client = await db.connect();
-    
-    try {
-
-    await client.query('SELECT * FROM favorites, recipe WHERE favorites.user_name = $1 AND recipe.id = favorites.recipe_id', [userName], (err, favorites) => {
+    // attaches user favorites to request
+    ;(async () => {
         
-        req.favorites = favorites.rows;
+        const client = await db.connect();
+        
+        try {
 
-    })
-    
-    await client.query('COMMIT');
+        await client.query('SELECT * FROM favorites, recipe WHERE favorites.user_name = $1 AND recipe.id = favorites.recipe_id', [userName], (err, favorites) => {
+            
+            req.favorites = favorites.rows;
 
-    } catch (e) {
-    await client.query('COMMIT');
-    throw e
+        })
+        
+        await client.query('COMMIT');
 
-    } finally {
-    client.release();
-    next();
+        } catch (e) {
+        await client.query('COMMIT');
+        throw e
 
-    }
+        } finally {
+        client.release();
+        next();
+
+        }
 
 
 
-})().catch(e => console.error(e.stack))
+    })().catch(e => console.error(e.stack))
 
 
 })
@@ -54,7 +56,7 @@ favoritesRouter.param('user_name', (req, res, next, userName) => {
 
 
 favoritesRouter.get('/:user_name', async (req, res, next) => {
-
+    // returns user favorites as json and status 200
     res.status(200).json({recipes: req.favorites});
 
   
@@ -62,6 +64,8 @@ favoritesRouter.get('/:user_name', async (req, res, next) => {
 
 
 favoritesRouter.post('/', (req, res, next) => {
+    // adds a new row to favorites table with user id an recipe id
+
     const user = req.body.user;
     const recipeId = req.body.recipeId;
 
@@ -91,6 +95,8 @@ favoritesRouter.post('/', (req, res, next) => {
 })
 
 favoritesRouter.delete('/', (req, res, next) => {
+    // unfavorites a recipe, removes from favorites table
+
     const user = req.body.user;
     const recipeId = req.body.recipeId;
     console.log(req.body)
