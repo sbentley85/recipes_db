@@ -17,8 +17,7 @@ const db = new Pool(process.env.NODE_ENV === 'production' ? {
     database: process.env.LOCAL_DB_DATABASE,
     password: process.env.LOCAL_DB_PASSWORD,
     port: process.env.LOCAL_DB_PORT
-  })
-
+})
   
 
   recipesRouter.param('recipeId', (req, res, next, recipeId) => {

@@ -1,6 +1,6 @@
-# Recipe
+# Recipe DB
 
-Recipe DB is a no nonsense recipe site designed to allow users to easily store and browse recipes usind a React front-end. It was made as a portfolio project by [Simon Bentley](https://sbentley.me)
+Recipe DB is a no-nonsense recipe site designed to allow users to easily store and browse recipes usind a React front-end. It was made as a portfolio project by [Simon Bentley](https://sbentley.me)
 
 ## Live Demo
 
