@@ -12,7 +12,7 @@ import NavBar from '../NavBar/NavBar';
 import MyRecipes from '../MyRecipes/MyRecipes';
 import MyFavorites from '../MyFavorites/MyFavorites';
 import TaggedRecipes from '../Tags/TaggedRecipes';
-
+//
 function App() {
   return (
     <Router>
@@ -27,7 +27,7 @@ function App() {
           <PrivateRoute path='/myFavorites' component={MyFavorites} />
           <Route exact path='/tags/:tag' component={TaggedRecipes} />
         </Container>
-      </Router>
+    </Router>
   );
 }
 
